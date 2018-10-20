@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const timeController = require('../controllers/timeController');
+const timeController = require('../controllers/timeTableController');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
