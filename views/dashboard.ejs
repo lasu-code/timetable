@@ -39,17 +39,8 @@
             border-color: transparent;
             color: #fff !important;
         }
-        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-
-        .row.content {
-            height: 550px
-        }
-        /* Set gray background color and 100% height */
-
-        .sidenav {
-            background-color: #f1f1f1;
-            height: 100%;
-        }
+        
+        
         /* On small screens, set height to 'auto' for the grid */
 
         @media screen and (max-width: 767px) {
@@ -84,29 +75,15 @@
     <br>
     <br>
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row content">
-            <div class="col-sm-3 sidenav">
-                <h4>Welcome Admin</h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li class="active"><a href="#home"><span class="fa fa-home"></span> Home</a></li>
-                    <li><a href="#new"><span class="fa fa-file-pdf-o"></span> Download as pdf</a></li>
-                </ul><br>
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search subject...">
-                    <span class="input-group-btn">
-          <button class="btn btn-default" type="button">
-            <span class="glyphicon glyphicon-search"></span>
-                    </button>
-                    </span>
-                </div>
-            </div>
+            <% include ./partials/sidebar %>
             <div class="col-sm-9">
                 <div class="container-fluid">
                     <h2>TimeTable Work Space</h2>
                     <p>Create your table by simply clicking the empty cells:</p>
-                    <div class="">
-                        <table class="">
+                    <div class="container-fluid">
+                        <table>
 
                             <tr>
                                 <th></th>
@@ -133,7 +110,7 @@
                                 <td id="js1Mon3" onclick="edit3()"></td>
                                 <td id="js1Mon4" onclick="edit4()"></td>
                                 <td id="js1Mon5" onclick="edit5()"></td>
-                                <td rowspan="15"></td>
+                                <th rowspan="15">LONG BREAK</th>
                                 <td id="js1Mon6" onclick="edit6()"></td>
                                 <td id="js1Mon7" onclick="edit7()"></td>
                                 <td id="js1Mon8" onclick="edit8()"></td>
@@ -338,9 +315,7 @@
     </div>
 
     <br><br>
-    <footer class="container-fluid text-center">
-        <p>website developed by <a href="../index.html" title="Visit w3schools">teamtimetable.com</a></p>
-    </footer>
+    <!-- <% include ./partials/footer.ejs %> -->
     <script src="js/script.js"></script>
 </body>
 

@@ -340,7 +340,7 @@
   </div>
 
   <!-- about -->
-  <div id="about" class="container-fluid">
+  <div id="about" class="container">
     <div class="row">
       <div class="col-sm-8"><br><br>
         <h2>MyTimeTable</h2><br>
@@ -373,19 +373,19 @@
         <div class="form-group">
           <label class="control-label col-sm-3" for="add">School Address:</label>
           <div class="col-sm-9">
-            <input type="add" class="form-control input-sm" id="add">
+            <input type="text" class="form-control input-sm" id="add">
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-3" for="schname">School Name:</label>
           <div class="col-sm-9">
-            <input type="schname" class="form-control input-sm" id="schname">
+            <input type="text" class="form-control input-sm" id="schname">
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-3" for="name">Administartor's Name:</label>
           <div class="col-sm-9">
-            <input type="name" class="form-control input-sm" id="name">
+            <input type="text" class="form-control input-sm" id="name">
           </div>
         </div>
         <div class="form-group">
@@ -406,7 +406,7 @@
 
 
   <!-- Container (Contact Section) -->
-  <div id="contact" class="container-fluid bg-grey">
+  <div id="contact" class="container bg-grey">
     <h2 class="text-center">CONTACT</h2>
     <div class="row">
       <div class="col-sm-5">
@@ -435,12 +435,8 @@
   </div>
 
 
-  <footer class="container-fluid text-center">
-    <a href="#myPage" title="To Top">
-    <span class="glyphicon glyphicon-chevron-up"></span>
-  </a>
-    <p>website developed by <a href="../index.html" title="Visit w3schools">teamtimetable.com</a></p>
-  </footer>
+
+   <% include ./partials/footer.ejs %> 
   <script src="js/script.js"></script>
   <script>
     $(document).ready(function () {
