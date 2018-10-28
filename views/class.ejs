@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title> <%= title %> </title>
+    <link href="/assets/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+    <% include ./partials/navbar-dashboard %>
+    <div class="container page">
+        <div class="row content">
+            <% include ./partials/breadcrumb %>
+            <div class="col-sm-12 well">
+                <form method="post" class="admin-form" action="">
+                    <div class="form-group col-sm-6">
+                        <label for="name">Class Name</label>
+                        <input type="text" name="name" class="form-control" />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="status">Status</label>
+                        <div class="col-sm-12 radio-group">
+                            <input type="radio" name="status" value="true" checked> &nbsp;
+                            <span>Active</span>
+                            <span class="space"></span>
+                            <input type="radio" name="status" value="false">&nbsp;
+                            <span>In Active</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <button type="submit" name="submit" value="submit" class="btn btn-primary">Create New Class</button>
+                        <button type="reset" class="btn btn-warning">Reset</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-12 row">
+                <div class="container-fluid">
+                    <% if (classes.length < 1) { %>
+                        <h2>No Class in DB</h2>
+                        <% } else { %>
+                            <h2 class="col-sm-12"> <%= classes.length %> Classes</h2>
+                            <% for (var i = 0; i < classes.length; i++) { %>
+                            <div class="col-sm-3 cards">
+                                <div class="well">
+                                    <b class="fa-2x"> <%= classes[i].name %> </b> &emsp;
+                                    <% if (classes[i].status == true) { %>
+                                        <i class="fa-2x fa fa-check-circle text-success"></i>
+                                    <% } else { %>
+                                        <i class="fa-2x fa fa-times-circle text-warning"></i>
+                                    <% } %>
+                                    <hr/>
+                                    <a href="/dashboard/classes/edit/<%= classes[i]._id %>" class="text-primary">
+                                        <small><i class="fa fa-edit"></i> Edit</small>
+                                    </a>
+                                    <a data-target="#delete-form" data-toggle="modal" data-value="<%= classes[i]._id %>" class="pull-right text-danger pointer">
+                                        <small><i class="fa fa-trash"></i> Delete</small>
+                                    </a>
+                                </div>
+                            </div>
+                    <% } } %>
+                </div>
+                <div class="modal fade" id="delete-form">
+                    <div class="modal-dialog"><div class="modal-content">
+                        <div class="modal-header">
+                            <a data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times; close</span></a>
+                        </div>
+                        <div class="model-body">
+                            <form method="post" action="/dashboard/classes" class="well">
+                                <input type="hidden" name="id" value="" />
+                                <button type="submit" name="submit" value="delete" class="center-block">Confirm Delete</button>
+                            </form>
+                        </div>
+                    </div></div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <br><br>
+
+    <% include ./partials/footer %>
+
+    <script src="/assets/ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="/assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+
+</html>
