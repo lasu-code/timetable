@@ -58,7 +58,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-3" for="class">Total Number of Classes:</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control input-sm" id="sel1">
+                                    <select class="form-control input-sm" id="sel1" onchange="getSelect(this)">
                                             <option>1</option>
                                             <option>2</option>
                                             <option>3</option>
@@ -74,9 +74,11 @@
                                 <div class="col-sm-3"> <button type="button" class="btn btn-primary btn-block">Next</button> </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-3" for="add">Class Name:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control input-sm" id="class">
+                                <div class="" id="LabelName">
+                                    <label class="control-label col-sm-3" for="add" >Class Name:</label>
+                                </div>
+                                <div class="col-sm-9 " id="className">
+                                    <input type="text" class="form-control input-sm" placeholder="Class" id="class">
                                 </div>
                             </div><br><br>
                             <div class="col-sm-2"><button type="button" class="btn btn-primary btn-block">Submit</button></div>

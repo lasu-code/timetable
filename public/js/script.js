@@ -23,20 +23,34 @@ function comment(){
 }
 
 function editCell(field){
-    // let a = prompt("Enter a subject");
-    // document.getElementById(field).innerHTML = a;
-
-    // if (popUp.style.display == "none") {
-        popUp.style.display = "block";
-    // }
-    // else {
-    //     popUp.style.display = "none";
-    // }
+    popUp.style.display = "block";
 }
 function tog(field){
     // let a = document.getElementById("sel1").value;
     // document.getElementById(field).innerHTML = a;
     popUp.style.display = "none";
+}
+function getSelect(selectObject) {
+    let value = selectObject.value;
+    console.log(value);
+    addSchName(value);
+}
+function addSchName(classNumber) {
+    let container = document.getElementById("className");
+    let container2 = document.getElementById("labelName");
+    while (container.hasChildNodes()){
+        container.removeChild(container.lastChild);
+    }
+    
+    for(let i = 0; i < classNumber; i++) {
+        let input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = "Class" + (i+1);
+        input.name = "class" + (i+1);
+        input.className = "form-control input-sm";
+        container.appendChild(input);
+        container.appendChild(document.createElement("br"));
+    }
 }
 function edit1(){
     let a = prompt("Enter a subject");
