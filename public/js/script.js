@@ -1,4 +1,4 @@
-
+popUp.style.display = "none";
 function login(){
     
     if (document.getElementById("email").value==""){
@@ -23,8 +23,20 @@ function comment(){
 }
 
 function editCell(field){
-    let a = prompt("Enter a subject");
-    document.getElementById(field).innerHTML = a;
+    // let a = prompt("Enter a subject");
+    // document.getElementById(field).innerHTML = a;
+
+    // if (popUp.style.display == "none") {
+        popUp.style.display = "block";
+    // }
+    // else {
+    //     popUp.style.display = "none";
+    // }
+}
+function tog(field){
+    // let a = document.getElementById("sel1").value;
+    // document.getElementById(field).innerHTML = a;
+    popUp.style.display = "none";
 }
 function edit1(){
     let a = prompt("Enter a subject");
@@ -125,9 +137,5 @@ function edit24(){
 }
 
 
-let q = document.getElementsByClassName("test");
-q.onclick = function sample(){
-    s = prompt(" enter a subject");
-    q.innerHTML = s;
-}
+
 

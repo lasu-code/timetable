@@ -8,7 +8,9 @@ const timeTableController = require('../controllers/timeTableController');
 // });
 
 router.get('/', timeTableController.homePage);
+router.post("/signup/user", timeTableController.postuser)
 router.get('/student', timeTableController.studentsPage);
+router.get('/student2', timeTableController.studentsPage2);
 router.get('/dashboard', timeTableController.dashboardPage);
 router.get('/dashboard1', timeTableController.dashboardPage1);
 router.get('/dashboard2', timeTableController.dashboardPage2);

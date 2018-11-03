@@ -1,5 +1,21 @@
-// const mongoose = require('mongoose');
-// const timeTable = mongoose.model('timeTable');
+const mongoose = require('mongoose');
+const User = require('../models/user');
+const bcrypt = require("bcrypt")
+
+exports.postuser = function (req, res, next) {
+    console.log(req.body);
+    let user = {
+        schEmail: req.body.schEmail,
+        address: req.body.address,
+        schName: req.body.schName,
+        adminName: req.body.adminName,
+        password: req.body.password,
+    };
+    let newUser = new User(user);
+    newUser.password = newUser.generateHash(req.body.password);
+    newUser.save();
+    res.redirect('/#login');
+}
 
 exports.homePage = function (req, res, next) {
     res.render('index', { title: 'TIMETABLE' });
@@ -20,5 +36,8 @@ exports.dashboardPage3 = function (req, res, next) {
 };
 exports.studentsPage = function (req, res, next) {
     res.render('student', { title: 'LASUCode' });
+};
+exports.studentsPage2 = function (req, res, next) {
+    res.render('student2', { title: 'LASUCode' });
 };
 
