@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const User = require('../models/user');
 const bcrypt = require("bcrypt")
+let Class = require('../models/class.model.js');
 
 exports.postuser = function (req, res, next) {
     console.log(req.body);
@@ -17,6 +18,33 @@ exports.postuser = function (req, res, next) {
     res.redirect('/#login');
 }
 
+exports.dashboardPage2 = function (req, res, next) {
+    
+    Class.find({})
+        .exec()
+        .then((classes) => {
+            res.render('dashboard2', { title: "Manage Classes" });
+        })
+        .catch((err) => {
+            console.log("Error occured", err);
+        });
+};
+
+exports.postDashboard2 = function (req, res, next) {
+    let oneClass = new Class;
+    oneClass.name = req.body.name;
+    oneClass.status = req.body.status;
+
+    oneClass.save()
+        .then((data) => {
+            res.redirect('/dashboard2');
+        })
+        .catch((err) => {
+            console.log("Error occured", err);
+            res.send(`${err.name}: ${err._message}`);
+        });
+}
+
 exports.homePage = function (req, res, next) {
     res.render('index', { title: 'TIMETABLE' });
 };
@@ -28,9 +56,7 @@ exports.dashboardPage = function (req, res, next) {
 exports.dashboardPage1 = function (req, res, next) {
     res.render('dashboard1', { title: 'LASUCode' });
 };
-exports.dashboardPage2 = function (req, res, next) {
-    res.render('dashboard2', { title: 'LASUCode' });
-};
+
 exports.dashboardPage3 = function (req, res, next) {
     res.render('dashboard3', { title: 'LASUCode' });
 };
