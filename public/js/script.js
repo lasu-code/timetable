@@ -1,13 +1,13 @@
 
 function login(){
-    
+
     if (document.getElementById("email").value==""){
         alert("Please input school email")
     }
     else if(document.getElementById("pwd").value == ""){
         alert("Please input ypur password")
     }
-    
+
 }
 
 function reg(){
@@ -26,6 +26,22 @@ function editCell(field){
     let a = prompt("Enter a subject");
     document.getElementById(field).innerHTML = a;
 }
+
+
+let deletebtns = document.querySelectorAll('a.delete-trigger');
+deletebtns.forEach(element => {
+    element.addEventListener('click', () => {
+        element.nextElementSibling.classList = 'in-view';
+    })
+});
+
+let closebtns = document.querySelectorAll('button.form-close');
+closebtns.forEach(element => {
+    element.addEventListener('click', () => {
+        element.parentElement.classList = 'hidden';
+    })
+});
+
 function edit1(){
     let a = prompt("Enter a subject");
     js1Mon1.innerHTML = a;
@@ -121,7 +137,7 @@ function edit23(){
 function edit24(){
     let a = prompt("Enter a subject");
     js3Mon8.innerHTML = a;
-    
+
 }
 
 

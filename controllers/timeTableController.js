@@ -38,6 +38,41 @@ exports.classPost = function (req, res, next) {
     });
 }
 
+exports.oneClassPage = function (req, res, next) {
+    let bcrumb = {dashboard: '/dashboard', classes: '/dashboard/classes', edit: ''};
+    let classID = req.params.id;
+    Class.findOne({_id: classID})
+    .exec()
+    .then((oneclass) => {
+        res.render('classone', {title: "Edit Class: " + oneclass.name, oneclass: oneclass, bcrumb: bcrumb});
+    })
+    .catch((err) => {
+        console.log("Error occured", err);
+    });
+}
+
+exports.oneClassPost = function (req, res, next) {
+    Class.findOneAndUpdate({_id: req.body._id}, {name: req.body.name, status: req.body.status})
+    .exec()
+    .then(() => {
+        res.redirect('/dashboard/classes');
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+}
+
+exports.oneClassDelete = function (req, res, next) {
+    Class.findByIdAndDelete({_id: req.body._id})
+    .exec()
+    .then(() => {
+        res.redirect('/dashboard/classes');
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+}
+
 exports.studentsPage = function (req, res, next) {
     res.render('student', { title: 'Students' });
 };

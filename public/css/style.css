@@ -315,6 +315,10 @@ div.cards hr {
     margin-top: 25vh;
 }
 
+a[aria-label="Close"] {
+    cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
     .reg{
         width: 95%;

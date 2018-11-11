@@ -59,9 +59,15 @@
                                     <a href="/dashboard/classes/edit/<%= classes[i]._id %>" class="text-primary">
                                         <small><i class="fa fa-edit"></i> Edit</small>
                                     </a>
-                                    <a data-target="#delete-form" data-toggle="modal" data-value="<%= classes[i]._id %>" class="pull-right text-danger pointer">
+                                    <a class="delete-trigger pull-right text-danger pointer">
                                         <small><i class="fa fa-trash"></i> Delete</small>
                                     </a>
+                                    <form method="post" action="/dashboard/classes/edit/<%= classes[i]._id %>?_method=DELETE" class="hidden">
+                                        <input type="hidden" name="_method" value="delete" />
+                                        <input type="hidden" name="_id" value="<%= classes[i]._id %>" />
+                                        <button type="submit" name="submit" value="delete" class="center-block">Confirm Delete</button>
+                                        <button type="reset" class="center-block form-close">Cancel</button>
+                                    </form>
                                 </div>
                             </div>
                     <% } } %>

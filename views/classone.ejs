@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title> <%= title %> </title>
+    <link href="/assets/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+    <% include ./partials/navbar-dashboard %>
+    <div class="container page">
+        <div class="row content">
+            <% include ./partials/breadcrumb %>
+            <h2> <%= 'Editing Class: ' + oneclass.name %> </h2>
+            <div class="col-sm-12 well">
+                <form method="post" class="admin-form" action="/dashboard/classes/edit/<%= oneclass._id%>?_method=PUT">
+                    <input type="hidden" name="_id" value="<%= oneclass._id %>" />
+                    <div class="form-group col-sm-6">
+                        <label for="name">Class Name</label>
+                        <input type="text" name="name" class="form-control" value="<%= oneclass.name %>" />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="status">Status</label>
+                        <div class="col-sm-12 radio-group">
+                            <input type="radio" name="status" value="true" <% if(oneclass.status) { %> <%= 'checked' %> <% } %>>  &nbsp;
+                            <span>Active</span>
+                            <span class="space"></span>
+                            <input type="radio" name="status" value="false" <% if(!oneclass.status) { %> <%= 'checked' %> <% } %>> &nbsp;
+                            <span>In Active</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <button type="submit" name="submit" value="submit" class="btn btn-primary">Update Class</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+
+    <% include ./partials/footer %>
+
+    <script src="/assets/ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="/assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+
+</html>
