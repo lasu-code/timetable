@@ -12,4 +12,4 @@ let ClassSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('classes', ClassSchema);
+module.exports = mongoose.model('class', ClassSchema);

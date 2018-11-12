@@ -19,11 +19,11 @@ exports.postuser = function (req, res, next) {
 }
 
 exports.dashboardPage2 = function (req, res, next) {
-    
+    let bcrumb = { dashboard: '/dashboard', classes: '/dashboard2' };
     Class.find({})
         .exec()
         .then((classes) => {
-            res.render('dashboard2', { title: "Manage Classes" });
+            res.render('dashboard2', { title: "Manage Classes", classes: classes });
         })
         .catch((err) => {
             console.log("Error occured", err);
