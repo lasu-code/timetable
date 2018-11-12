@@ -1,3 +1,18 @@
+
+let deletebtns = document.querySelectorAll('a.delete-trigger');
+deletebtns.forEach(element => {
+    element.addEventListener('click', () => {
+        element.nextElementSibling.classList = 'in-view';
+    })
+});
+
+let closebtns = document.querySelectorAll('button.form-close');
+closebtns.forEach(element => {
+    element.addEventListener('click', () => {
+        element.parentElement.classList = 'hidden';
+    })
+});
+
 popUp.style.display = "none";
 function login(){
     
