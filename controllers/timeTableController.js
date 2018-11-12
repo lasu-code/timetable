@@ -45,6 +45,15 @@ exports.postDashboard2 = function (req, res, next) {
         });
 }
 
+exports.deleteClass = function (req, res, next) {
+    console.log(req.body);
+
+    Class.findOneAndRemove(req.body.classId, function () {
+        res.redirect('/dashboard2');
+    })
+
+};
+
 exports.homePage = function (req, res, next) {
     res.render('index', { title: 'TIMETABLE' });
 };

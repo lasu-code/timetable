@@ -17,5 +17,7 @@ router.get('/dashboard2', timeTableController.dashboardPage2);
 router.post('/dashboard2', timeTableController.postDashboard2);
 router.get('/dashboard3', timeTableController.dashboardPage3);
 
+router.post('/deleteClass', timeTableController.deleteClass);
+
 
 module.exports = router;
