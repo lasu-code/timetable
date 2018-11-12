@@ -15,5 +15,10 @@ router.post('/dashboard/classes', timeTableController.classPost);
 router.get('/dashboard/classes/edit/:id', timeTableController.oneClassPage);
 router.put('/dashboard/classes/edit/:id', timeTableController.oneClassPost);
 router.delete('/dashboard/classes/edit/:id', timeTableController.oneClassDelete);
+router.get('/dashboard/subjects', timeTableController.subjectPage);
+router.post('/dashboard/subjects', timeTableController.subjectPost);
+router.get('/dashboard/subjects/edit/:id', timeTableController.oneSubjectPage);
+router.put('/dashboard/subjects/edit/:id', timeTableController.oneSubjectPost);
+router.delete('/dashboard/subjects/edit/:id', timeTableController.oneSubjectDelete);
 
 module.exports = router;
