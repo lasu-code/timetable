@@ -1,43 +1,38 @@
 // const mongoose = require('mongoose');
-const User = require('../models/user');
-const bcrypt = require("bcrypt")
+// const timeTable = mongoose.model('timeTable');
+
+let pluralize = require('pluralize');
 let Class = require('../models/class.model.js');
+let Subject = require('../models/subject.model.js');
 
-exports.postuser = function (req, res, next) {
-    console.log(req.body);
-    let user = {
-        schEmail: req.body.schEmail,
-        address: req.body.address,
-        schName: req.body.schName,
-        adminName: req.body.adminName,
-        password: req.body.password,
-    };
-    let newUser = new User(user);
-    newUser.password = newUser.generateHash(req.body.password);
-    newUser.save();
-    res.redirect('/#login');
-}
+exports.homePage = function (req, res, next) {
+    res.render('index', { title: 'TimeTable App' });
+};
 
-exports.dashboardPage2 = function (req, res, next) {
-    let bcrumb = { dashboard: '/dashboard', classes: '/dashboard2' };
+exports.dashboardPage = function (req, res, next) {
+    res.render('dashboard', { title: 'Admin Dashboard' });
+};
+
+exports.classPage = function (req, res, next) {
+    let bcrumb = { dashboard: '/dashboard', classes: '/dashboard/classes' };
     Class.find({})
         .exec()
         .then((classes) => {
-            res.render('dashboard2', { title: "Manage Classes", classes: classes });
+            res.render('class', { title: "Manage Classes", classes: classes, bcrumb: bcrumb });
         })
         .catch((err) => {
             console.log("Error occured", err);
         });
-};
+}
 
-exports.postDashboard2 = function (req, res, next) {
+exports.classPost = function (req, res, next) {
     let oneClass = new Class;
     oneClass.name = req.body.name;
     oneClass.status = req.body.status;
 
     oneClass.save()
         .then((data) => {
-            res.redirect('/dashboard2');
+            res.redirect('/dashboard/classes');
         })
         .catch((err) => {
             console.log("Error occured", err);
@@ -45,34 +40,142 @@ exports.postDashboard2 = function (req, res, next) {
         });
 }
 
-exports.deleteClass = function (req, res, next) {
-    console.log(req.body);
+exports.oneClassPage = function (req, res, next) {
+    let bcrumb = { dashboard: '/dashboard', classes: '/dashboard/classes', edit: '' };
+    let classID = req.params.id;
+    Class.findOne({ _id: classID })
+        .exec()
+        .then((oneclass) => {
+            res.render('classone', { title: "Edit Class: " + oneclass.name, oneclass: oneclass, bcrumb: bcrumb });
+        })
+        .catch((err) => {
+            console.log("Error occured", err);
+        });
+}
 
-    Class.findOneAndRemove(req.body.classId, function () {
-        res.redirect('/dashboard2');
-    })
+exports.oneClassPost = function (req, res, next) {
+    Class.findOneAndUpdate({ _id: req.body._id }, { name: req.body.name, status: req.body.status })
+        .exec()
+        .then(() => {
+            res.redirect('/dashboard/classes');
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
 
-};
+exports.oneClassDelete = function (req, res, next) {
+    Class.findByIdAndDelete({ _id: req.body._id })
+        .exec()
+        .then(() => {
+            res.redirect('/dashboard/classes');
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
 
-exports.homePage = function (req, res, next) {
-    res.render('index', { title: 'TIMETABLE' });
-};
+exports.subjectPage = function (req, res, next) {
+    let bcrumb = { dashboard: '/dashboard', subjects: '/dashboard/subjects' };
+    Class.find({ 'status': true })
+        .exec()
+        .then((classes) => {
+            Subject.find({})
+                .populate('class')
+                .exec()
+                .then((subjects) => {
+                    res.render('subject', { title: "Manage Subjects", subjects: subjects, bcrumb: bcrumb, classes: classes, pluralize: pluralize });
+                })
+                .catch((err) => {
+                    console.log("Subject query error:", err);
+                });
+        })
+        .catch((err) => {
+            console.log("Class query error:", err);
+        });
+}
 
-exports.dashboardPage = function (req, res, next) {
-    res.render('dashboard', { title: 'LASUCode' });
-};
+exports.subjectPost = function (req, res, next) {
+    let oneSubject = new Subject;
+    oneSubject.name = req.body.name;
+    oneSubject.status = req.body.status;
+    oneSubject.class = req.body.class;
 
-exports.dashboardPage1 = function (req, res, next) {
-    res.render('dashboard1', { title: 'LASUCode' });
-};
+    oneSubject.save()
+        .then((data) => {
+            res.redirect('/dashboard/subjects');
+        })
+        .catch((err) => {
+            console.log("Error occured", err);
+            res.send(`${err.name}: ${err._message}`);
+        });
+}
 
-exports.dashboardPage3 = function (req, res, next) {
-    res.render('dashboard3', { title: 'LASUCode' });
-};
+exports.oneSubjectPage = function (req, res, next) {
+    let bcrumb = { dashboard: '/dashboard', subjects: '/dashboard/subjects', edit: '' };
+    Class.find({ 'status': true })
+        .exec()
+        .then((classes) => {
+            Subject.findOne({ _id: req.params.id })
+                .populate('class')
+                .exec()
+                .then((onesubject) => {
+                    let unassigned = classes;
+                    if (onesubject.class) {
+                        unassigned = []
+                        classes.forEach((c, index) => {
+                            if (!onesubject.class.find((x) => x.name == c.name)) {
+                                unassigned.push(classes[index]);
+                            }
+                        })
+                    }
+
+                    res.render('subjectone', { title: "Edit Subject: " + onesubject.name, onesubject: onesubject, classes: unassigned, bcrumb: bcrumb });
+                })
+                .catch((err) => {
+                    console.log("Subject query error:", err);
+                })
+        })
+        .catch((err) => {
+            console.log("Class query error:", err);
+        });
+}
+
+exports.oneSubjectPost = function (req, res, next) {
+    Subject.findOneAndUpdate({ _id: req.body._id }, { name: req.body.name, status: req.body.status, class: req.body.class })
+        .exec()
+        .then(() => {
+            res.redirect('/dashboard/subjects');
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
+exports.oneSubjectDelete = function (req, res, next) {
+    Subject.findByIdAndDelete({ _id: req.body._id })
+        .exec()
+        .then(() => {
+            res.redirect('/dashboard/subjects');
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
 exports.studentsPage = function (req, res, next) {
-    res.render('student', { title: 'LASUCode' });
+    res.render('student', { title: 'Students' });
 };
+
+
+
+
+
 exports.studentsPage2 = function (req, res, next) {
-    res.render('student2', { title: 'LASUCode' });
+    res.render('student2');
 };
+exports.dashboardTimetable = function (req, res, next) {
+    res.render('dashboard4');
+};
+
 

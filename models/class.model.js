@@ -4,7 +4,10 @@ let Schema = mongoose.Schema;
 let ClassSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        uppercase: true,
+        trim: true,
+        unique: true
     },
     status: {
         type: Boolean,
@@ -12,4 +15,4 @@ let ClassSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('class', ClassSchema);
+module.exports = mongoose.model('classes', ClassSchema);

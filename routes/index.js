@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+let passport = require("passport");
+
 const timeTableController = require('../controllers/timeTableController');
 
 /* GET home page. */
@@ -8,16 +10,33 @@ const timeTableController = require('../controllers/timeTableController');
 // });
 
 router.get('/', timeTableController.homePage);
-router.post("/signup/user", timeTableController.postuser)
 router.get('/student', timeTableController.studentsPage);
 router.get('/student2', timeTableController.studentsPage2);
 router.get('/dashboard', timeTableController.dashboardPage);
-router.get('/dashboard1', timeTableController.dashboardPage1);
-router.get('/dashboard2', timeTableController.dashboardPage2);
-router.post('/dashboard2', timeTableController.postDashboard2);
-router.get('/dashboard3', timeTableController.dashboardPage3);
-
-router.post('/deleteClass', timeTableController.deleteClass);
+router.get('/dashboard/timetable', timeTableController.dashboardTimetable)
 
 
+router.get('/dashboard/classes', timeTableController.classPage);
+router.post('/dashboard/classes', timeTableController.classPost);
+router.get('/dashboard/classes/edit/:id', timeTableController.oneClassPage);
+router.put('/dashboard/classes/edit/:id', timeTableController.oneClassPost);
+router.delete('/dashboard/classes/edit/:id', timeTableController.oneClassDelete);
+router.get('/dashboard/subjects', timeTableController.subjectPage);
+router.post('/dashboard/subjects', timeTableController.subjectPost);
+router.get('/dashboard/subjects/edit/:id', timeTableController.oneSubjectPage);
+router.put('/dashboard/subjects/edit/:id', timeTableController.oneSubjectPost);
+router.delete('/dashboard/subjects/edit/:id', timeTableController.oneSubjectDelete);
+
+router.post('/signup/user', passport.authenticate('local.registerUser', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/#signup',
+    failureFlash: true
+}))
+
+
+router.post('/login/user', passport.authenticate('local.loginUser', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/#signup',
+    failureFlash: true
+}))
 module.exports = router;

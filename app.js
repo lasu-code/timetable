@@ -4,9 +4,16 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let mongoose = require('mongoose');
+let methodOverride = require('method-override');
+let bodyParser = require('body-parser');
+let session = require("express-session");
+let passport = require('passport');
+let MongoStore = require('connect-mongodb-session')(session);
+let flash = require("express-flash");
 
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
+require("./config/passport");
 
 let app = express();
 
@@ -23,9 +30,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+
+app.use(session({
+    secret: "mysecrect",
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
+
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
