@@ -37,12 +37,9 @@
         <hr>
         <div class="col-sm-7">
             <select class="form-control input-sm" id="sel1">
-        <option>JSS1</option>
-        <option>JSS2</option>
-        <option>JSS3</option>
-        <option>SSS1</option>
-        <option>SSS2</option>
-        <option>SSS3</option>
+                <% for (let i = 0; i < classes.length; i++)  {  %>
+                    <option><%= classes[i].name %></option>
+                <% } %>
       </select>
         </div>
         <div class="col-sm-5"> <button type="button" class="btn btn-primary btn-block">Generate Timetable</button> </div><br><br>

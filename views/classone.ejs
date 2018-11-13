@@ -10,7 +10,7 @@
     <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <link href="/css/style.css" rel="stylesheet">
-    <title>Document</title>
+    <title><%= title%></title>
     <style>
         .navbar {
             margin-bottom: 0;
@@ -56,7 +56,7 @@
                                 <h2>
                                     <%= 'Editing Class: ' + oneclass.name %>
                                 </h2>
-                                <div class="col-sm-12 well">
+                                <div class="col-sm-12 well dark">
                                     <form method="POST" class="admin-form" action="/dashboard/classes/edit/<%= oneclass._id%>?_method=PUT">
                                         <input type="hidden" name="_id" value="<%= oneclass._id %>" />
                                         <div class="form-group col-sm-6">

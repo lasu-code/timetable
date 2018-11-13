@@ -13,6 +13,23 @@ exports.dashboardPage = function (req, res, next) {
     res.render('dashboard', { title: 'Admin Dashboard' });
 };
 
+exports.studentsPage = function (req, res, next) {
+    Class.find({})
+        .exec()
+        .then((classes) => {
+            res.render('student', { title: "Students Page", classes: classes});
+        })
+        .catch((err) => {
+            console.log("Error occured", err);
+        });
+};
+
+exports.studentsPage2 = function (req, res, next) {
+    res.render('student2');
+};
+exports.testPage = function (req, res, next) {
+    res.render('timetable');
+}
 exports.classPage = function (req, res, next) {
     let bcrumb = { dashboard: '/dashboard', classes: '/dashboard/classes' };
     Class.find({})
@@ -163,19 +180,7 @@ exports.oneSubjectDelete = function (req, res, next) {
         })
 }
 
-exports.studentsPage = function (req, res, next) {
-    res.render('student', { title: 'Students' });
-};
 
 
-
-
-
-exports.studentsPage2 = function (req, res, next) {
-    res.render('student2');
-};
-exports.dashboardTimetable = function (req, res, next) {
-    res.render('dashboard4');
-};
 
 

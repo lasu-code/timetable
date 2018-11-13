@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <script src="assets/ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <style>
+        .navbar {
+            margin-bottom: 0;
+            background-color: #4700b3;
+            z-index: 9999;
+            border: 0;
+            font-size: 12px !important;
+            line-height: 1.42857143 !important;
+            letter-spacing: 4px;
+            border-radius: 0;
+            font-family: Montserrat, sans-serif;
+        }
+
+        .navbar li a,
+        .navbar .navbar-brand {
+            color: #fff !important;
+        }
+
+        .navbar-nav li a:hover,
+        .navbar-nav li.active a {
+            color: #4700b3 !important;
+            background-color: #fff !important;
+        }
+
+        .navbar-default .navbar-toggle {
+            border-color: transparent;
+            color: #fff !important;
+        }
+
+        #popUp {
+            position: absolute;
+            margin: 0 40%;
+            margin-top: -20%;
+        }
+        /* On small screens, set height to 'auto' for the grid */
+
+        @media screen and (max-width: 767px) {
+            .row.content {
+                height: auto;
+            }
+            #popUp {
+                position: absolute;
+                margin: 0 30%;
+                margin-top: -70%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            #popUp {
+                position: absolute;
+                margin: 0 60%;
+                margin-top: -120%;
+            }
+        }
+
+        .logo-small {
+            color: #4700b3;
+            font-size: 50px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body id="myPage">
+    <% include ./partials/navbar %>
+        <br>
+        <br>
+        <br>
+
+        <div class="container">
+            <div class="row content">
+                <% include ./partials/sidebar %>
+                    <div class="col-sm-9">
+                        <div class="container-fluid">
+                            <h2>TimeTable Work Space</h2>
+                            <p>Create your table by simply clicking the empty cells:</p>
+                            <div class="container-fluid">
+                                <table>
+
+                                    <tr>
+                                        <th></th>
+                                        <th>Class</th>
+                                        <th>8:20-9:00</th>
+                                        <th>9:00-9:40</th>
+                                        <th>9:40-10:20</th>
+                                        <th>10:20-10:30</th>
+                                        <th>10:30-11:10</th>
+                                        <th>11:10-11:50</th>
+                                        <th>11:50-12:30</th>
+                                        <th>12:30-1:00</th>
+                                        <th>1:00-1:40</th>
+                                        <th>1:40-2:20</th>
+                                    </tr>
+
+
+                                    <tr>
+                                        <th rowspan="3">MONDAY</th>
+                                        <th>JSS1</th>
+                                        <td id="js1Mon1" onclick="editCell('js1Mon1')"></td>
+                                        <td id="js1Mon2" onclick="editCell('js1Mon2')"></td>
+                                        <th rowspan="15">SHORT BREAK</th>
+                                        <td id="js1Mon3" onclick="editCell('js1Mon3')"></td>
+                                        <td id="js1Mon4" onclick="editcell('js1Mon4')"></td>
+                                        <td id="js1Mon5" onclick="editCell('js1Mon5')"></td>
+                                        <th rowspan="15">LONG BREAK</th>
+                                        <td id="js1Mon6" onclick="editCell('js1Mon6')"></td>
+                                        <td id="js1Mon7" onclick="editCell('js1Mon7')"></td>
+                                        <td id="js1Mon8" onclick="editCell('js1Mon8')"></td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <th>JSS2</th>
+                                        <td id="js2Mon1" onclick="editCell('js2Mon1')"></td>
+                                        <td id="js2Mon2" onclick="editCell('js2Mon2')"></td>
+                                        <td id="js2Mon3" onclick="editCell('js2Mon3')"></td>
+                                        <td id="js2Mon4" onclick="editCell('js2Mon4')"></td>
+                                        <td id="js2Mon5" onclick="editCell('js2Mon5')"></td>
+                                        <td id="js2Mon6" onclick="editCell('js2Mon6')"></td>
+                                        <td id="js2Mon7" onclick="editCell('js2Mon7')"></td>
+                                        <td id="js2Mon8" onclick="editCell('js2Mon8')"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>JSS3</th>
+                                        <td id="js3Mon1" onclick="editCell('js3Mon1')"></td>
+                                        <td id="js3Mon2" onclick="editCell('js3Mon2')"></td>
+                                        <td id="js3Mon3" onclick="editCell('js3Mon3')"></td>
+                                        <td id="js3Mon4" onclick="editCell('js3Mon4')"></td>
+                                        <td id="js3Mon5" onclick="editCell('js3Mon5')"></td>
+                                        <td id="js3Mon6" onclick="editCell('js3Mon6')"></td>
+                                        <td id="js3Mon7" onclick="editCell('js3Mon7')"></td>
+                                        <td id="js3Mon8" onclick="editCell('js3Mon8')"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th rowspan="3">TUESDAY</th>
+                                        <th>JSS1</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="test">JSS2</th>
+                                        <td class="test"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>JSS3</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th rowspan="3">WEDNESDAY</th>
+                                        <th>JSS1</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>JSS2</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>JSS3</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th rowspan="3">THURSDAY</th>
+                                        <th>JSS1</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>JSS2</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>JSS3</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th rowspan="3">FRIDAY</th>
+                                        <th>JSS1</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>JSS2</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>JSS3</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th></th>
+                                        <th>Class</th>
+                                        <th>8:20-9:00</th>
+                                        <th>9:00-9:40</th>
+                                        <th>9:40-10:20</th>
+                                        <th>10:20-10:30</th>
+                                        <th>10:30-11:10</th>
+                                        <th>11:10-11:50</th>
+                                        <th>11:50-12:30</th>
+                                        <th>12:30-1:00</th>
+                                        <th>1:00-1:40</th>
+                                        <th>1:40-2:20</th>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div><br>
+                        <button type="button" class="btn btn-primary">Reset</button>
+                        <button type="button" class="btn btn-primary">Submit</button>
+                    </div>
+
+            </div>
+            <div class="col-sm-3 reg" id="popUp">
+                <h2>Enter Subject:</h2>
+                <select class="form-control input-sm" id="sel1">
+            <option>Subject</option>
+            <option>Subject</option>
+            <option>Subject</option>
+            <option>Subject</option>
+            <option>Subject</option>
+            <option>Subject</option>
+            <option>Subject</option>
+            <option>Subject</option>
+            <option>Subject</option>
+            <option>Subject</option>
+        </select><br>
+                <button type="button" class="btn btn-primary" onclick="tog()">Submit</button>
+            </div>
+        </div>
+        <br>
+
+
+        <br><br>
+        <!-- <% include ./partials/footer.ejs %> -->
+        <script src="js/script.js"></script>
+</body>
+
+</html>

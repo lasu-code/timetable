@@ -13,7 +13,8 @@ router.get('/', timeTableController.homePage);
 router.get('/student', timeTableController.studentsPage);
 router.get('/student2', timeTableController.studentsPage2);
 router.get('/dashboard', timeTableController.dashboardPage);
-router.get('/dashboard/timetable', timeTableController.dashboardTimetable)
+router.get('/timetable', timeTableController.testPage);
+
 
 
 router.get('/dashboard/classes', timeTableController.classPage);
@@ -26,6 +27,7 @@ router.post('/dashboard/subjects', timeTableController.subjectPost);
 router.get('/dashboard/subjects/edit/:id', timeTableController.oneSubjectPage);
 router.put('/dashboard/subjects/edit/:id', timeTableController.oneSubjectPost);
 router.delete('/dashboard/subjects/edit/:id', timeTableController.oneSubjectDelete);
+
 
 router.post('/signup/user', passport.authenticate('local.registerUser', {
     successRedirect: '/dashboard',
