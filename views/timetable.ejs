@@ -40,10 +40,23 @@
             color: #fff !important;
         }
 
-        #popUp {
-            position: absolute;
-            margin: 0 40%;
-            margin-top: -20%;
+        .modal {
+            text-align: center;
+            padding: 0!important;
+        }
+
+        .modal:before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+            margin-right: -4px;
+        }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
         }
         /* On small screens, set height to 'auto' for the grid */
 
@@ -121,41 +134,41 @@
                                     <tr>
                                         <th rowspan="3">MONDAY</th>
                                         <th>JSS1</th>
-                                        <td id="js1Mon1" onclick="editCell('js1Mon1')"></td>
-                                        <td id="js1Mon2" onclick="editCell('js1Mon2')"></td>
-                                        <th rowspan="15">SHORT BREAK</th>
-                                        <td id="js1Mon3" onclick="editCell('js1Mon3')"></td>
-                                        <td id="js1Mon4" onclick="editcell('js1Mon4')"></td>
-                                        <td id="js1Mon5" onclick="editCell('js1Mon5')"></td>
-                                        <th rowspan="15">LONG BREAK</th>
-                                        <td id="js1Mon6" onclick="editCell('js1Mon6')"></td>
-                                        <td id="js1Mon7" onclick="editCell('js1Mon7')"></td>
-                                        <td id="js1Mon8" onclick="editCell('js1Mon8')"></td>
+                                        <td id="js1Mon2" class="" data-toggle="modal" data-target="#myModal"></td>
+                                        <td id="js1Mon2" class="" data-toggle="modal" data-target="#myModal"></td>
+                                        <th rowspan="15" class="" data-toggle="modal" data-target="#myModal">SHORT BREAK</th>
+                                        <td id="js1Mon3" class="" data-toggle="modal" data-target="#myModal"></td>
+                                        <td id="js1Mon4" class="" data-toggle="modal" data-target="#myModal"></td>
+                                        <td id="js1Mon5" class="" data-toggle="modal" data-target="#myModal"></td>
+                                        <th rowspan="15" class="" data-toggle="modal" data-target="#myModal">LONG BREAK</th>
+                                        <td id="js1Mon6" class="" data-toggle="modal" data-target="#myModal"></td>
+                                        <td id="js1Mon7" class="" data-toggle="modal" data-target="#myModal"></td>
+                                        <td id="js1Mon8" class="" data-toggle="modal" data-target="#myModal"></td>
 
                                     </tr>
 
                                     <tr>
                                         <th>JSS2</th>
-                                        <td id="js2Mon1" onclick="editCell('js2Mon1')"></td>
-                                        <td id="js2Mon2" onclick="editCell('js2Mon2')"></td>
-                                        <td id="js2Mon3" onclick="editCell('js2Mon3')"></td>
-                                        <td id="js2Mon4" onclick="editCell('js2Mon4')"></td>
-                                        <td id="js2Mon5" onclick="editCell('js2Mon5')"></td>
-                                        <td id="js2Mon6" onclick="editCell('js2Mon6')"></td>
-                                        <td id="js2Mon7" onclick="editCell('js2Mon7')"></td>
-                                        <td id="js2Mon8" onclick="editCell('js2Mon8')"></td>
+                                        <td id="js2Mon1" ></td>
+                                        <td id="js2Mon2" ></td>
+                                        <td id="js2Mon3" ></td>
+                                        <td id="js2Mon4" ></td>
+                                        <td id="js2Mon5" ></td>
+                                        <td id="js2Mon6" ></td>
+                                        <td id="js2Mon7" ></td>
+                                        <td id="js2Mon8" ></td>
                                     </tr>
 
                                     <tr>
                                         <th>JSS3</th>
-                                        <td id="js3Mon1" onclick="editCell('js3Mon1')"></td>
-                                        <td id="js3Mon2" onclick="editCell('js3Mon2')"></td>
-                                        <td id="js3Mon3" onclick="editCell('js3Mon3')"></td>
-                                        <td id="js3Mon4" onclick="editCell('js3Mon4')"></td>
-                                        <td id="js3Mon5" onclick="editCell('js3Mon5')"></td>
-                                        <td id="js3Mon6" onclick="editCell('js3Mon6')"></td>
-                                        <td id="js3Mon7" onclick="editCell('js3Mon7')"></td>
-                                        <td id="js3Mon8" onclick="editCell('js3Mon8')"></td>
+                                        <td id="js3Mon1" ></td>
+                                        <td id="js3Mon2" ></td>
+                                        <td id="js3Mon3" ></td>
+                                        <td id="js3Mon4" ></td>
+                                        <td id="js3Mon5" ></td>
+                                        <td id="js3Mon6" ></td>
+                                        <td id="js3Mon7" ></td>
+                                        <td id="js3Mon8" ></td>
                                     </tr>
 
                                     <tr>
@@ -329,26 +342,34 @@
                     </div>
 
             </div>
-            <div class="col-sm-3 reg" id="popUp">
-                <h2>Enter Subject:</h2>
-                <select class="form-control input-sm" id="sel1">
-            <option>Subject</option>
-            <option>Subject</option>
-            <option>Subject</option>
-            <option>Subject</option>
-            <option>Subject</option>
-            <option>Subject</option>
-            <option>Subject</option>
-            <option>Subject</option>
-            <option>Subject</option>
-            <option>Subject</option>
-        </select><br>
-                <button type="button" class="btn btn-primary" onclick="tog()">Submit</button>
-            </div>
+            
         </div>
         <br>
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
 
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Select a subject</h4>
+                        </div>
+                        <div class="modal-body">
+                            <select class="form-control input-sm" id="sel1">
+                                <% for (let i = 0; i < subjects.length; i++)  {  %>
+                                    <option><%= subjects[i].name %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
 
+                </div>
+            </div>
+
+<td id="js1Mon2" class="" data-toggle="modal" data-target="#myModal"></td>
         <br><br>
         <!-- <% include ./partials/footer.ejs %> -->
         <script src="js/script.js"></script>
