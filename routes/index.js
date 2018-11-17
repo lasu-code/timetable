@@ -14,7 +14,7 @@ router.get('/student', timeTableController.studentsPage);
 router.get('/student2', timeTableController.studentsPage2);
 router.get('/dashboard', timeTableController.dashboardPage);
 router.get('/timetable', timeTableController.testPage);
-
+router.get('/test', timeTableController.test);
 
 
 router.get('/dashboard/classes', timeTableController.classPage);

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <script src="assets/ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <style>
+        .navbar {
+            margin-bottom: 0;
+            background-color: #4700b3;
+            z-index: 9999;
+            border: 0;
+            font-size: 12px !important;
+            line-height: 1.42857143 !important;
+            letter-spacing: 4px;
+            border-radius: 0;
+            font-family: Montserrat, sans-serif;
+        }
+
+        .navbar li a,
+        .navbar .navbar-brand {
+            color: #fff !important;
+        }
+
+        .navbar-nav li a:hover,
+        .navbar-nav li.active a {
+            color: #4700b3 !important;
+            background-color: #fff !important;
+        }
+
+        .navbar-default .navbar-toggle {
+            border-color: transparent;
+            color: #fff !important;
+        }
+
+        .modal {
+            text-align: center;
+            padding: 0!important;
+        }
+
+        .modal:before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+            margin-right: -4px;
+        }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+        /* On small screens, set height to 'auto' for the grid */
+
+        @media screen and (max-width: 767px) {
+            .row.content {
+                height: auto;
+            }
+            #popUp {
+                position: absolute;
+                margin: 0 30%;
+                margin-top: -70%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            #popUp {
+                position: absolute;
+                margin: 0 60%;
+                margin-top: -120%;
+            }
+        }
+
+        .logo-small {
+            color: #4700b3;
+            font-size: 50px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body id="myPage">
+    <% include ./partials/navbar %>
+        <br>
+        <br>
+        <br>
+
+        <div class="container">
+            <div class="row content">
+                <% include ./partials/sidebar %>
+                    <div class="col-sm-9">
+                        <div class="container-fluid">
+                            <h2>TimeTable Work Space</h2>
+                            <p>Create your table by simply clicking the empty cells:</p>
+                        
+                            <div class="container-fluid">
+
+                                <% if (classes.length < 1) { %>
+                                    <h2>No Class in DB</h2>
+                                    <% } else { %>
+                                        <table>
+                                            <tr>
+                                                <th></th>
+                                                <th>Class</th>
+                                                <th>8:20-9:00</th>
+                                                <th>9:00-9:40</th>
+                                                <th>9:40-10:20</th>
+                                                <th>10:20-10:30</th>
+                                                <th>10:30-11:10</th>
+                                                <th>11:10-11:50</th>
+                                                <th>11:50-12:30</th>
+                                                <th>12:30-1:00</th>
+                                                <th>1:00-1:40</th>
+                                                <th>1:40-2:20</th>
+                                            </tr>
+                                            <% for (var i = 0; i < classes.length; i++) { %>
+                                            <tr>
+                                                <% if (i == 0) { %>
+                                                <th rowspan=<%= classes.length %>>MONDAY</th>
+                                                <% } %>
+                                                <th><%= classes[i].name %></th>
+                                                <td id="js1-Mon2-time1" class="" data-toggle="modal" data-target="#myModal"></td>
+                                                <td id="js1Mon2-time2" class="" data-toggle="modal" data-target="#myModal"></td>
+                                                <% if (i == 0) { %>
+                                                <th rowspan="15" class="" data-toggle="modal" data-target="#myModal">SHORT BREAK</th>
+                                                <% } %>
+                                                <td id="js1-Mon3-time3" class="" data-toggle="modal" data-target="#myModal"></td>
+                                                <td id="js1Mon4" class="" data-toggle="modal" data-target="#myModal"></td>
+                                                <td id="js1Mon5" class="" data-toggle="modal" data-target="#myModal"></td>
+                                            <% if (i == 0) { %>
+                                                <th rowspan="15" class="" data-toggle="modal" data-target="#myModal">LONG BREAK</th>
+                                                <% } %>
+                                                <td id="js1Mon6" class="" data-toggle="modal" data-target="#myModal"></td>
+                                                <td id="js1Mon7" class="" data-toggle="modal" data-target="#myModal"></td>
+                                                <td id="js1Mon8" class="" data-toggle="modal" data-target="#myModal"></td>
+
+                                            </tr>
+                                             <% } } %>
+
+                                        </table>
+                            </div>
+                            
+                        </div><br>
+                        <button type="button" class="btn btn-primary">Reset</button>
+                        <button type="button" class="btn btn-primary">Submit</button>
+                    </div>
+
+            </div>
+
+        </div>
+        <br>
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Select a subject</h4>
+                    </div>
+                    <div class="modal-body">
+                        <select class="form-control input-sm" id="sel1">
+                                <% for (let i = 0; i < subjects.length; i++)  {  %>
+                                    <option><%= subjects[i].name %></option>
+                                <% } %>
+                            </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+
+        <td id="js1Mon2" class="" data-toggle="modal" data-target="#myModal"></td>
+        <br><br>
+        <!-- <% include ./partials/footer.ejs %> -->
+        <script src="js/script.js"></script>
+</body>
+
+</html>

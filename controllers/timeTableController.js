@@ -27,6 +27,24 @@ exports.studentsPage = function (req, res, next) {
 exports.studentsPage2 = function (req, res, next) {
     res.render('student2');
 };
+exports.test = function (req, res, next) {
+    Class.find({ 'status': true })
+        .exec()
+        .then((classes) => {
+            Subject.find({})
+                .populate('class')
+                .exec()
+                .then((subjects) => {
+                    res.render('test', { title: "Manage Subjects", subjects: subjects, pluralize: pluralize, classes: classes });
+                })
+                .catch((err) => {
+                    console.log("Subject query error:", err);
+                });
+        })
+        .catch((err) => {
+            console.log("Class query error:", err);
+        });
+};
 exports.testPage = function (req, res, next) {
     Class.find({ 'status': true })
         .exec()
