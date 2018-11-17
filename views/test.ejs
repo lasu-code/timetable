@@ -139,20 +139,20 @@
                                                 <th rowspan=<%= classes.length %>>MONDAY</th>
                                                 <% } %>
                                                 <th><%= classes[i].name %></th>
-                                                <td id="js1-Mon2-time1" class="" data-toggle="modal" data-target="#myModal"></td>
-                                                <td id="js1Mon2-time2" class="" data-toggle="modal" data-target="#myModal"></td>
+                                                <td id="<%= classes[i].name %>-mon-time1" class=""  onclick=editCell("<%= classes[i].name %>-mon-time1")></td>
+                                                <td id="<%= classes[i].name %>-mon-time2" class="" onclick=editCell("<%= classes[i].name %>-mon-time2")></td>
                                                 <% if (i == 0) { %>
                                                 <th rowspan="15" class="" data-toggle="modal" data-target="#myModal">SHORT BREAK</th>
                                                 <% } %>
-                                                <td id="js1-Mon3-time3" class="" data-toggle="modal" data-target="#myModal"></td>
-                                                <td id="js1Mon4" class="" data-toggle="modal" data-target="#myModal"></td>
-                                                <td id="js1Mon5" class="" data-toggle="modal" data-target="#myModal"></td>
+                                                <td id="<%= classes[i].name %>-mon-time3" class="" onclick=editCell("<%= classes[i].name %>-mon-time3")></td>
+                                                <td id="<%= classes[i].name %>-mon-time4" class="" onclick=editCell("<%= classes[i].name %>-mon-time4")></td>
+                                                <td id="<%= classes[i].name %>-mon-time5" class="" onclick=editCell("<%= classes[i].name %>-mon-time5")></td>
                                             <% if (i == 0) { %>
                                                 <th rowspan="15" class="" data-toggle="modal" data-target="#myModal">LONG BREAK</th>
                                                 <% } %>
-                                                <td id="js1Mon6" class="" data-toggle="modal" data-target="#myModal"></td>
-                                                <td id="js1Mon7" class="" data-toggle="modal" data-target="#myModal"></td>
-                                                <td id="js1Mon8" class="" data-toggle="modal" data-target="#myModal"></td>
+                                                <td id="<%= classes[i].name %>-mon-time6" class="" onclick=editCell("<%= classes[i].name %>-mon-time6")></td>
+                                                <td id="<%= classes[i].name %>-mon-time7" class="" onclick=editCell("<%= classes[i].name %>-mon-time7")></td>
+                                                <td id="<%= classes[i].name %>-mon-time8" class="" onclick=editCell("<%= classes[i].name %>-mon-time8")></td>
 
                                             </tr>
                                              <% } } %>
@@ -169,6 +169,12 @@
 
         </div>
         <br>
+        <script>
+            $('#myModal').on('show.bs.modal', function (e) {
+                var $invoker = $(e.relatedTarget);
+                debugger;
+            });
+        </script>
         <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog">
 
@@ -179,9 +185,9 @@
                         <h4 class="modal-title">Select a subject</h4>
                     </div>
                     <div class="modal-body">
-                        <select class="form-control input-sm" id="sel1">
+                        <select class="form-control input-sm" id="sel1" onchange=handleSubjectSelect(this)>
                                 <% for (let i = 0; i < subjects.length; i++)  {  %>
-                                    <option><%= subjects[i].name %></option>
+                                    <option value="<%= subjects[i].name %>"><%= subjects[i].name %></option>
                                 <% } %>
                             </select>
                     </div>
