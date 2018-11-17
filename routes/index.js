@@ -28,6 +28,8 @@ router.get('/dashboard/subjects/edit/:id', timeTableController.oneSubjectPage);
 router.put('/dashboard/subjects/edit/:id', timeTableController.oneSubjectPost);
 router.delete('/dashboard/subjects/edit/:id', timeTableController.oneSubjectDelete);
 
+router.post('dashboard/createTimeTable', timeTableController.createTimeTable);
+
 
 router.post('/signup/user', passport.authenticate('local.registerUser', {
     successRedirect: '/dashboard',

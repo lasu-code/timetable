@@ -109,6 +109,7 @@
             <div class="row content">
                 <% include ./partials/sidebar %>
                     <div class="col-sm-9">
+                            <form action="/createTimeTable" method="post">
                         <div class="container-fluid">
                             <h2>TimeTable Work Space</h2>
                             <p>Create your table by simply clicking the empty cells:</p>
@@ -133,13 +134,16 @@
                                                 <th>1:00-1:40</th>
                                                 <th>1:40-2:20</th>
                                             </tr>
+                                            
+                                            
                                             <% for (var i = 0; i < classes.length; i++) { %>
                                             <tr>
                                                 <% if (i == 0) { %>
                                                 <th rowspan=<%= classes.length %>>MONDAY</th>
                                                 <% } %>
                                                 <th><%= classes[i].name %></th>
-                                                <td id="<%= classes[i].name %>-mon-time1" class=""  onclick=editCell("<%= classes[i].name %>-mon-time1")></td>
+                                                <td id="<%= classes[i].name %>-mon-time1" class="" onclick=editCell("<%= classes[i].name %>-mon-time1")></td>
+                                                <input type="hidden" name="<%= classes[i].name %>-mon-time1" id="input-<%= classes[i].name %>-mon-time1">
                                                 <td id="<%= classes[i].name %>-mon-time2" class="" onclick=editCell("<%= classes[i].name %>-mon-time2")></td>
                                                 <% if (i == 0) { %>
                                                 <th rowspan="15" class="" data-toggle="modal" data-target="#myModal">SHORT BREAK</th>
@@ -163,6 +167,7 @@
                         </div><br>
                         <button type="button" class="btn btn-primary">Reset</button>
                         <button type="button" class="btn btn-primary">Submit</button>
+                    </form>
                     </div>
 
             </div>
@@ -185,11 +190,15 @@
                         <h4 class="modal-title">Select a subject</h4>
                     </div>
                     <div class="modal-body">
-                        <select class="form-control input-sm" id="sel1" onchange=handleSubjectSelect(this)>
+                        <form action="#" method="get">
+                            <input type="hidden" name="subjectValue" id="subjectValue">
+                             <select class="form-control input-sm" id="sel1" onchange=handleSubjectSelect(this)>
                                 <% for (let i = 0; i < subjects.length; i++)  {  %>
                                     <option value="<%= subjects[i].name %>"><%= subjects[i].name %></option>
                                 <% } %>
                             </select>
+                        </form>
+                       
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

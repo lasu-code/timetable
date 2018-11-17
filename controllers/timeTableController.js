@@ -161,6 +161,10 @@ exports.subjectPost = function (req, res, next) {
         });
 }
 
+exports.createTimeTable = function (req, res, next) {
+    
+}
+
 exports.oneSubjectPage = function (req, res, next) {
     let bcrumb = { dashboard: '/dashboard', subjects: '/dashboard/subjects', edit: '' };
     Class.find({ 'status': true })
