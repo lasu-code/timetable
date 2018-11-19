@@ -35,24 +35,6 @@ exports.test = function (req, res, next) {
                 .populate('class')
                 .exec()
                 .then((subjects) => {
-                    res.render('test', { title: "Manage Subjects", subjects: subjects, pluralize: pluralize, classes: classes });
-                })
-                .catch((err) => {
-                    console.log("Subject query error:", err);
-                });
-        })
-        .catch((err) => {
-            console.log("Class query error:", err);
-        });
-};
-exports.testPage = function (req, res, next) {
-    Class.find({ 'status': true })
-        .exec()
-        .then((classes) => {
-            Subject.find({})
-                .populate('class')
-                .exec()
-                .then((subjects) => {
                     res.render('timetable', { title: "Manage Subjects", subjects: subjects, pluralize: pluralize, classes: classes });
                 })
                 .catch((err) => {
@@ -62,7 +44,8 @@ exports.testPage = function (req, res, next) {
         .catch((err) => {
             console.log("Class query error:", err);
         });
-}
+};
+
 exports.classPage = function (req, res, next) {
     let bcrumb = { dashboard: '/dashboard', classes: '/dashboard/classes' };
     Class.find({})
@@ -162,7 +145,19 @@ exports.subjectPost = function (req, res, next) {
 }
 
 exports.createTimeTable = function (req, res, next) {
-    
+    let oneTimetable = new Timetable;
+    oneTimetable.name = req.body.name;
+    oneTimetable.status = req.body.status;
+    oneTimetable.class = req.body.class;
+
+    oneTimetable.save()
+        .then((data) => {
+            res.redirect('/timetable');
+        })
+        .catch((err) => {
+            console.log("Error occured", err);
+            res.send(`${err.name}: ${err._message}`);
+        });
 }
 
 exports.oneSubjectPage = function (req, res, next) {

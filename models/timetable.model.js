@@ -2,6 +2,11 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let TimetableSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        uppercase: true
+    },
     time: {
         type: String,
         required: true,
