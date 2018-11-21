@@ -31,8 +31,8 @@ router.delete('/dashboard/subjects/edit/:id', timeTableController.oneSubjectDele
 router.post('dashboard/createTimeTable', timeTableController.createTimeTable);
 
 router.post('/signup/user', passport.authenticate('local.registerUser', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/registration',
+    successRedirect: '/registration',
+    failureRedirect: '/#sign-up',
     failureFlash: true
 }))
 
