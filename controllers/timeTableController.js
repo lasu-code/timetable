@@ -13,6 +13,10 @@ exports.dashboardPage = function (req, res, next) {
     res.render('dashboard', { title: 'Admin Dashboard' });
 };
 
+exports.reg = function (req, res, next) {
+    res.render('registration', { title: '' });
+};
+
 exports.studentsPage = function (req, res, next) {
     Class.find({})
         .exec()
@@ -27,7 +31,7 @@ exports.studentsPage = function (req, res, next) {
 exports.studentsPage2 = function (req, res, next) {
     res.render('student2');
 };
-exports.test = function (req, res, next) {
+exports.timetable = function (req, res, next) {
     Class.find({ 'status': true })
         .exec()
         .then((classes) => {
@@ -45,6 +49,7 @@ exports.test = function (req, res, next) {
             console.log("Class query error:", err);
         });
 };
+
 
 exports.classPage = function (req, res, next) {
     let bcrumb = { dashboard: '/dashboard', classes: '/dashboard/classes' };
@@ -147,8 +152,8 @@ exports.subjectPost = function (req, res, next) {
 exports.createTimeTable = function (req, res, next) {
     let oneTimetable = new Timetable;
     oneTimetable.name = req.body.name;
-    oneTimetable.status = req.body.status;
-    oneTimetable.class = req.body.class;
+    oneTimetable.time = req.body.time;
+    oneTimetable.day = req.body.day;
 
     oneTimetable.save()
         .then((data) => {

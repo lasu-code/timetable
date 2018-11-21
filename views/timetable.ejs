@@ -144,7 +144,7 @@
                                                 <th><%= classes[i].name %></th>
                                                 <td id="<%= classes[i].name %>-mon-time1" class="" onclick=editCell("<%= classes[i].name %>-mon-time1")></td>
                                                 <form action="dashboard/createTimeTable" method="POST">
-                                                    <input type="hidden" name="<%= classes[i].name %>-mon-time1" id="input-<%= classes[i].name %>-mon-time1">
+                                                    <input type="hidden" name="<%= classes[i].name %>-mon-time1" id="input<%= classes[i].name %>-mon-time1">
                                                 </form>
                                                 <td id="<%= classes[i].name %>-mon-time2" class="" onclick=editCell("<%= classes[i].name %>-mon-time2")></td>
                                                 <% if (i == 0) { %>

@@ -13,7 +13,8 @@ router.get('/', timeTableController.homePage);
 router.get('/student', timeTableController.studentsPage);
 router.get('/student2', timeTableController.studentsPage2);
 router.get('/dashboard', timeTableController.dashboardPage);
-router.get('/timetable', timeTableController.test);
+router.get('/timetable', timeTableController.timetable);
+router.get('/registration', timeTableController.reg);
 
 
 router.get('/dashboard/classes', timeTableController.classPage);
@@ -29,17 +30,16 @@ router.delete('/dashboard/subjects/edit/:id', timeTableController.oneSubjectDele
 
 router.post('dashboard/createTimeTable', timeTableController.createTimeTable);
 
-
 router.post('/signup/user', passport.authenticate('local.registerUser', {
     successRedirect: '/dashboard',
-    failureRedirect: '/#signup',
+    failureRedirect: '/registration',
     failureFlash: true
 }))
 
 
 router.post('/login/user', passport.authenticate('local.loginUser', {
     successRedirect: '/dashboard',
-    failureRedirect: '/#signup',
+    failureRedirect: '/#login',
     failureFlash: true
 }))
 module.exports = router;

@@ -7,15 +7,7 @@ let TimetableSchema = new Schema({
         required: true,
         uppercase: true
     },
-    time: {
-        type: String,
-        required: true,
-        uppercase: true
-    },
-    day: {
-        type: string,
-        default: true
-    },
+
     class: [{
         type: Schema.Types.ObjectId,
         ref: 'classes'
