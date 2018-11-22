@@ -6,6 +6,7 @@ const timeTableController = require('../controllers/timeTableController');
 
 function checkLoginStatus(req, res, next) {
     if (req.isAuthenticated()) {
+        username = req.user.schEmail;
         return next();
     }
 
@@ -30,12 +31,13 @@ router.post('/login/user', passport.authenticate('local.loginUser', {
 router.get('/registration', timeTableController.reg);
 router.get('/logout', timeTableController.logout);
 
-router.get('/dashboard', checkLoginStatus, timeTableController.dashboardPage);
+router.use('/dashboard', checkLoginStatus);
+router.get('/dashboard', timeTableController.dashboardPage);
 router.get('/dashboard/classes', timeTableController.classPage);
 router.post('/dashboard/classes', timeTableController.classPost);
 router.get('/dashboard/classes/edit/:id', timeTableController.oneClassPage);
 router.put('/dashboard/classes/edit/:id', timeTableController.oneClassPost);
-router.delete('/dashboard/classes/edit/:id', timeTableController.oneClassDelete);
+router.delete('/dashboard/classes/edit/:id', checkLoginStatus, timeTableController.oneClassDelete);
 
 router.get('/dashboard/subjects', timeTableController.subjectPage);
 router.post('/dashboard/subjects', timeTableController.subjectPost);
