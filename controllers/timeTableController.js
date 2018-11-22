@@ -14,8 +14,9 @@ exports.reg = function (req, res, next) {
 };
 
 exports.logout = function (req, res, next) {
-    req.logout()
-    res.redirect('/');
+    req.flash('error', 'Login to continue!');
+    req.logout();
+    res.redirect('/#login');
 };
 
 exports.studentsPage = function (req, res, next) {
