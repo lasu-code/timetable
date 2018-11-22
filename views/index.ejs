@@ -248,7 +248,7 @@
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
+        <span class="icon-bar"></span>
       </button>
         <a class="navbar-brand" href="#myPage"><span class="fa fa-table"></span> MyTimeTable</a>
       </div>
@@ -322,11 +322,11 @@
       <div class="col-sm-5"><br>
         <form role="form" action="/login/user" method="POST">
           <div class="form-group">
-            <input type="email" placeholder="School Email" class="form-control input-lg" id="email">
+            <input type="email" placeholder="School Email" class="form-control input-lg" id="email" name="schEmail">
           </div>
           <br>
           <div class="form-group">
-            <input type="password" placeholder="password" class="form-control input-lg" id="pwd">
+            <input type="password" placeholder="password" class="form-control input-lg" id="pwd" name="password">
           </div>
           <div class="checkbox">
             <label><input type="checkbox"> Remember me</label>
@@ -434,9 +434,17 @@
     </div>
   </div>
 
+  <% if (messages.error) { %>
+    <script>
+      alert('<%= messages.error %>');
+    </script>
+  <% } else if (messages.success) { %>
+    <script>
+      alert('<%= messages.success %>');
+    </script>
+  <% } %>
 
-
-   <% include ./partials/footer.ejs %> 
+   <% include ./partials/footer.ejs %>
   <script src="js/script.js"></script>
   <script>
     $(document).ready(function () {

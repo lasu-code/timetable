@@ -5,7 +5,6 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let mongoose = require('mongoose');
 let methodOverride = require('method-override');
-let bodyParser = require('body-parser');
 let session = require("express-session");
 let passport = require('passport');
 let MongoStore = require('connect-mongodb-session')(session);
@@ -28,22 +27,26 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser('mysecret'));
 app.use(methodOverride('_method'))
 
-
-
 app.use(session({
-    secret: "mysecrect",
+    name: "time_table_session",
+    secret: "mysecret",
     resave: true,
     saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: mongoose.connection })
+    store: new MongoStore({
+        uri: db,
+        databaseName: 'timetable',
+        collection: 'app_sessions'
+    })
 }));
-
 app.use(flash());
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
