@@ -9,12 +9,13 @@ exports.homePage = function (req, res, next) {
     res.render('index', { title: 'TimeTable App' });
 };
 
-exports.dashboardPage = function (req, res, next) {
-    res.render('dashboard', { title: 'Admin Dashboard' });
-};
-
 exports.reg = function (req, res, next) {
     res.render('registration', { title: '' });
+};
+
+exports.logout = function (req, res, next) {
+    req.logout()
+    res.redirect('/');
 };
 
 exports.studentsPage = function (req, res, next) {
@@ -31,25 +32,10 @@ exports.studentsPage = function (req, res, next) {
 exports.studentsPage2 = function (req, res, next) {
     res.render('student2');
 };
-exports.timetable = function (req, res, next) {
-    Class.find({ 'status': true })
-        .exec()
-        .then((classes) => {
-            Subject.find({})
-                .populate('class')
-                .exec()
-                .then((subjects) => {
-                    res.render('timetable', { title: "Manage Subjects", subjects: subjects, pluralize: pluralize, classes: classes });
-                })
-                .catch((err) => {
-                    console.log("Subject query error:", err);
-                });
-        })
-        .catch((err) => {
-            console.log("Class query error:", err);
-        });
-};
 
+exports.dashboardPage = function (req, res, next) {
+    res.render('dashboard', { title: 'Admin Dashboard', username: req.user.adminName });
+};
 
 exports.classPage = function (req, res, next) {
     let bcrumb = { dashboard: '/dashboard', classes: '/dashboard/classes' };
@@ -217,7 +203,22 @@ exports.oneSubjectDelete = function (req, res, next) {
         })
 }
 
-
-
-
+exports.timetable = function (req, res, next) {
+    Class.find({ 'status': true })
+        .exec()
+        .then((classes) => {
+            Subject.find({})
+                .populate('class')
+                .exec()
+                .then((subjects) => {
+                    res.render('timetable', { title: "Manage Subjects", subjects: subjects, pluralize: pluralize, classes: classes });
+                })
+                .catch((err) => {
+                    console.log("Subject query error:", err);
+                });
+        })
+        .catch((err) => {
+            console.log("Class query error:", err);
+        });
+};
 
