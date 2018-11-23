@@ -10,7 +10,7 @@
     <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <link href="/css/style.css" rel="stylesheet">
-    <title>Manage Subjects</title>
+    <title>Registration Successful</title>
     <style>
         .navbar {
             margin-bottom: 0;
@@ -43,10 +43,28 @@
 </head>
 
 <body>
-    
-    <div class="reg">
-        <h2>Registration Successful!</h2>
-        <a href="/dashboard"><input type="button" value="Continue"></a>
+
+    <div class="modal show" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    
+                    <h4 class="modal-title">Registration Successful</h4>
+                </div>
+                <div class="modal-body">
+                    <h2>Welcome to MYTIMETABLE.COM</h2>
+
+                </div>
+                <div class="modal-footer">
+                    <a href="/dashboard"><button type="submit" class="btn btn-default" data-dismiss="modal">Continue</button></a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
     </div>
 
         <script src="/assets/ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>

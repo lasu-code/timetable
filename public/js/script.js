@@ -1,22 +1,24 @@
-let deletebtns = document.querySelectorAll('a.delete-trigger');
-deletebtns.forEach((element) => {
-  element.addEventListener('click', () => {
-    element.nextElementSibling.classList = 'in-view';
+function dashboardControls() {
+  let deletebtns = document.querySelectorAll('a.delete-trigger');
+  deletebtns.forEach((element) => {
+    element.addEventListener('click', () => {
+      element.nextElementSibling.classList = 'in-view';
+    });
   });
-});
 
-let closebtns = document.querySelectorAll('button.form-close');
-closebtns.forEach((element) => {
-  element.addEventListener('click', () => {
-    element.parentElement.classList = 'hidden';
+  let closebtns = document.querySelectorAll('button.form-close');
+  closebtns.forEach((element) => {
+    element.addEventListener('click', () => {
+      element.parentElement.classList = 'hidden';
+    });
   });
-});
+}
 
 function login() {
   if (document.getElementById('email').value == '') {
-    alert('Please input school email');
+    alert('Please input your school email');
   } else if (document.getElementById('pwd').value == '') {
-    alert('Please input ypur password');
+    alert('Please input your password');
   }
 }
 
@@ -47,7 +49,7 @@ function editCell(field) {
 
         //get data-id attribute of the clicked element
         // var cellId = $(e.relatedTarget).data(field);
-    
+
         //populate the textbox
         // $(e.currentTarget).find('input[name="bookId"]').val(bookId);
     // });
