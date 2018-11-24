@@ -4,6 +4,7 @@
 let pluralize = require('pluralize');
 let Class = require('../models/class.model.js');
 let Subject = require('../models/subject.model.js');
+let Timetable = require('../models/timetable.model.js');
 
 exports.homePage = function (req, res, next) {
     res.render('index', { title: 'TimeTable App' });
@@ -51,12 +52,35 @@ exports.classPage = function (req, res, next) {
 }
 
 exports.classPost = function (req, res, next) {
+
+    function createSlots(classname) {
+        let day = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+        let period = ['t1', 't2', 't3', 't4', 't5', 't6', 't7', 't8'];
+        let slots = [];
+
+        for (let i = 0; i < day.length; i++) {
+            for (let j = 0; j < period.length; j++) {
+                slots.push({ day: day[i], period: period[j], classname: classname });
+            }
+        }
+        console.log(slots);
+        // let timeTableData = new Timetable();
+        Timetable.create(slots)
+                    .then((slot) => {
+                        console.log('Slots created for', classname)
+                    })
+                    .catch((err) => {
+                        console.log('An err occured: ', err);
+                    })
+    }
+
     let oneClass = new Class;
     oneClass.name = req.body.name;
     oneClass.status = req.body.status;
 
     oneClass.save()
         .then((data) => {
+            createSlots(data.name)
             res.redirect('/dashboard/classes');
         })
         .catch((err) => {
@@ -125,6 +149,8 @@ exports.subjectPost = function (req, res, next) {
     oneSubject.name = req.body.name;
     oneSubject.status = req.body.status;
     oneSubject.class = req.body.class;
+    oneSubject.periods = req.body.periods;
+    
 
     oneSubject.save()
         .then((data) => {
@@ -183,7 +209,7 @@ exports.oneSubjectPage = function (req, res, next) {
 }
 
 exports.oneSubjectPost = function (req, res, next) {
-    Subject.findOneAndUpdate({ _id: req.body._id }, { name: req.body.name, status: req.body.status, class: req.body.class })
+    Subject.findOneAndUpdate({ _id: req.body._id }, { name: req.body.name, status: req.body.status, class: req.body.class, periods: req.body.periods })
         .exec()
         .then(() => {
             res.redirect('/dashboard/subjects');

@@ -7,6 +7,10 @@ let SubjectSchema = new Schema({
         required: true,
         uppercase: true
     },
+    periods: {
+        type: Number,
+        required: true,
+    },
     status: {
         type: Boolean,
         default: true

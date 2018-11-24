@@ -2,16 +2,30 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let TimetableSchema = new Schema({
-    name: {
+    subject: {
+        type: String,
+        uppercase: true
+    },
+    classname: {
         type: String,
         required: true,
         uppercase: true
     },
-
-    class: [{
-        type: Schema.Types.ObjectId,
-        ref: 'classes'
-    }]
+    isOccupied: {
+        type: Boolean,
+        default: false
+    },
+    day: {
+        type: String,
+        required: true,
+        uppercase: true
+    },
+    period: {
+        type: String,
+        required: true,
+        uppercase: true
+    }
+    
 });
 
 module.exports = mongoose.model('timetable', TimetableSchema);
