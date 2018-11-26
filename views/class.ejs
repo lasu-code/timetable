@@ -47,89 +47,83 @@
     <br>
     <div class="container">
         <div class="row content">
-            <% include ./partials/sidebar %>
-                <div class="col-sm-9 container-fluid">
-                    <% include ./partials/breadcrumb %>
-                    <div class="col-sm-12 well dark">
-                        <form method="post" class="admin-form" action="">
-                            <div class="form-group col-sm-6">
-                                <label for="name">Class Name</label>
-                                <input type="text" name="name" class="form-control" />
-                            </div>
-
-                            <div class="form-group col-sm-6">
-                                <label for="status">Status</label>
-                                <div class="col-sm-12 radio-group">
-                                    <input type="radio" name="status" value="true" checked> &nbsp;
-                                    <span>Active</span>
-                                    <span class="space"></span>
-                                    <input type="radio" name="status" value="false">&nbsp;
-                                    <span>In Active</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <button type="submit" name="submit" value="submit" class="btn btn-primary">Create New Class</button>
-                                <button type="reset" class="btn btn-warning">Reset</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="col-sm-12 row">
-                        <div class="container-fluid">
-                            <% if (classes.length < 1) { %>
-                                <h2>No Class in DB</h2>
-                                <% } else { %>
-                                    <h2 class="col-sm-12">
-                                        <%= classes.length %> Classes</h2>
-                                    <% for (var i = 0; i < classes.length; i++) { %>
-                                        <div class="col-sm-3 cards">
-                                            <div class="well dark">
-                                                <b class="fa-2x"> <%= classes[i].name %> </b> &emsp;
-                                                <% if (classes[i].status == true) { %>
-                                                    <i class="fa-2x fa fa-check-circle text-success"></i>
-                                                    <% } else { %>
-                                                        <i class="fa-2x fa fa-times-circle text-warning"></i>
-                                                        <% } %>
-                                                            <hr/>
-                                                            <a href="/dashboard/classes/edit/<%= classes[i]._id %>" class="text-primary">
-                                        <small><i class="fa fa-edit"></i> Edit</small>
-                                    </a>
-                                                            <a class="delete-trigger pull-right text-danger pointer">
-                                        <small><i class="fa fa-trash"></i> Delete</small>
-                                    </a>
-                                                            <form method="post" action="/dashboard/classes/edit/<%= classes[i]._id %>?_method=DELETE" class="hidden">
-                                                                <input type="hidden" name="_method" value="delete" />
-                                                                <input type="hidden" name="_id" value="<%= classes[i]._id %>" />
-                                                                <button type="submit" name="submit" value="delete" class="center-block">Confirm Delete</button>
-                                                                <button type="reset" class="center-block form-close">Cancel</button>
-                                                            </form>
-                                            </div>
-                                        </div>
-                                        <% } } %>
+            <%- include('./partials/sidebar', {activeNav: 'class'}); %>
+            <div class="col-sm-9 container-fluid">
+                <% include ./partials/breadcrumb %>
+                <div class="col-sm-12 well dark">
+                    <form method="post" class="admin-form" action="">
+                        <div class="form-group col-sm-6">
+                            <label for="name">Class Name</label>
+                            <input type="text" name="name" class="form-control" />
                         </div>
-                        <div class="modal fade" id="delete-form">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <a data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times; close</span></a>
-                                    </div>
-                                    <div class="model-body">
-                                        <form method="post" action="/dashboard/classes" class="well">
-                                            <input type="hidden" name="id" value="" />
+
+                        <div class="form-group col-sm-6">
+                            <label for="status">Status</label>
+                            <div class="col-sm-12 radio-group">
+                                <input type="radio" name="status" value="true" checked> &nbsp;
+                                <span>Active</span>
+                                <span class="space"></span>
+                                <input type="radio" name="status" value="false">&nbsp;
+                                <span>In Active</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <button type="submit" name="submit" value="submit" class="btn btn-primary">Create New Class</button>
+                            <button type="reset" class="btn btn-warning">Reset</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-sm-12 row">
+                    <div class="container-fluid">
+                        <% if (classes.length < 1) { %>
+                            <h2>No Class in DB</h2>
+                        <% } else { %>
+                            <h2 class="col-sm-12"> <%= classes.length %> Classes</h2>
+                            <% for (var i = 0; i < classes.length; i++) { %>
+                                <div class="col-sm-3 cards">
+                                    <div class="well dark">
+                                        <b class="fa-2x"> <%= classes[i].name %> </b> &emsp;
+                                        <% if (classes[i].status == true) { %>
+                                            <i class="fa-2x fa fa-check-circle text-success"></i>
+                                        <% } else { %>
+                                            <i class="fa-2x fa fa-times-circle text-warning"></i>
+                                        <% } %>
+                                        <hr/>
+                                        <a href="/dashboard/classes/edit/<%= classes[i]._id %>" class="text-primary">
+                                            <small><i class="fa fa-edit"></i> Edit</small>
+                                        </a>
+                                        <a class="delete-trigger pull-right text-danger pointer">
+                                            <small><i class="fa fa-trash"></i> Delete</small>
+                                        </a>
+                                        <form method="post" action="/dashboard/classes/edit/<%= classes[i]._id %>?_method=DELETE" class="hidden">
+                                            <input type="hidden" name="_method" value="delete" />
+                                            <input type="hidden" name="_id" value="<%= classes[i]._id %>" />
                                             <button type="submit" name="submit" value="delete" class="center-block">Confirm Delete</button>
+                                            <button type="reset" class="center-block form-close">Cancel</button>
                                         </form>
                                     </div>
                                 </div>
+                            <% }
+                        } %>
+                    </div>
+                    <div class="modal fade" id="delete-form">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <a data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times; close</span></a>
+                                </div>
+                                <div class="model-body">
+                                    <form method="post" action="/dashboard/classes" class="well">
+                                        <input type="hidden" name="id" value="" />
+                                        <button type="submit" name="submit" value="delete" class="center-block">Confirm Delete</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-
                 </div>
+            </div>
         </div>
     </div>
     <!-- <% include ./partials/footer.ejs %> -->

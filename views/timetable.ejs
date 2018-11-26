@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <title> <%= title %> </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/assets/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
-    <script src="assets/ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/assets/ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="/assets/maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <style>
         .navbar {
             margin-bottom: 0;
@@ -101,246 +101,139 @@
 
 <body id="myPage">
     <% include ./partials/navbar %>
-        <br>
-        <br>
-        <br>
+    <br>
+    <br>
+    <br>
 
-        <div class="container">
-            <div class="row content">
-                <% include ./partials/sidebar %>
-                    <div class="col-sm-9">
-                            <form action="/createTimeTable" method="post">
+    <div class="container">
+        <div class="row content">
+            <%- include('./partials/sidebar', {activeNav: 'timetable'}); %>
+            <div class="col-sm-12 col-lg-9">
+                <form action="/dashboard/createTimeTable" method="post">
+                    <div class="container-fluid">
+                        <h2>TimeTable Work Space</h2>
+                        <p>Create your table by simply clicking the empty cells:</p>
+
                         <div class="container-fluid">
-                            <h2>TimeTable Work Space</h2>
-                            <p>Create your table by simply clicking the empty cells:</p>
-                        
-                            <div class="container-fluid">
+                            <% if (classes.length < 1) { %>
+                                <h2>No Class in DB</h2>
+                            <% } else { %>
+                                <table>
+                                    <tr>
+                                        <th></th>
+                                        <th>Class</th>
+                                        <th>8:20-9:00</th>
+                                        <th>9:00-9:40</th>
+                                        <th>9:40-10:20</th>
+                                        <th>10:20-10:30</th>
+                                        <th>10:30-11:10</th>
+                                        <th>11:10-11:50</th>
+                                        <th>11:50-12:30</th>
+                                        <th>12:30-1:00</th>
+                                        <th>1:00-1:40</th>
+                                        <th>1:40-2:20</th>
+                                    </tr>
 
-                                <% if (classes.length < 1) { %>
-                                    <h2>No Class in DB</h2>
-                                    <% } else { %>
-                                        <table>
-                                            <tr>
-                                                <th></th>
-                                                <th>Class</th>
-                                                <th>8:20-9:00</th>
-                                                <th>9:00-9:40</th>
-                                                <th>9:40-10:20</th>
-                                                <th>10:20-10:30</th>
-                                                <th>10:30-11:10</th>
-                                                <th>11:10-11:50</th>
-                                                <th>11:50-12:30</th>
-                                                <th>12:30-1:00</th>
-                                                <th>1:00-1:40</th>
-                                                <th>1:40-2:20</th>
-                                            </tr>
-                                            
-                                            
-                                            <% for (var i = 0; i < classes.length; i++) { %>
-                                            <tr>
-                                                <% if (i == 0) { %>
-                                                <th rowspan=<%= classes.length %>>MONDAY</th>
-                                                <% } %>
-                                                <th><%= classes[i].name %></th>
-                                                <td id="<%= classes[i].name %>-mon-time1" class="" onclick=editCell("<%= classes[i].name %>-mon-time1")></td>
-                                                <form action="dashboard/createTimeTable" method="POST">
-                                                    <input type="hidden" name="<%= classes[i].name %>-mon-time1" id="input<%= classes[i].name %>-mon-time1">
-                                                </form>
-                                                <td id="<%= classes[i].name %>-mon-time2" class="" onclick=editCell("<%= classes[i].name %>-mon-time2")></td>
-                                                <% if (i == 0) { %>
-                                                <th rowspan="<%= classes.length %>" >SHORT BREAK</th>
-                                                <% } %>
-                                                <td id="<%= classes[i].name %>-mon-time3" class="" onclick=editCell("<%= classes[i].name %>-mon-time3")></td>
-                                                <td id="<%= classes[i].name %>-mon-time4" class="" onclick=editCell("<%= classes[i].name %>-mon-time4")></td>
-                                                <td id="<%= classes[i].name %>-mon-time5" class="" onclick=editCell("<%= classes[i].name %>-mon-time5")></td>
-                                            <% if (i == 0) { %>
-                                                <th rowspan="<%= classes.length %>" >LONG BREAK</th>
-                                                <% } %>
-                                                <td id="<%= classes[i].name %>-mon-time6" class="" onclick=editCell("<%= classes[i].name %>-mon-time6")></td>
-                                                <td id="<%= classes[i].name %>-mon-time7" class="" onclick=editCell("<%= classes[i].name %>-mon-time7")></td>
-                                                <td id="<%= classes[i].name %>-mon-time8" class="" onclick=editCell("<%= classes[i].name %>-mon-time8")></td>
+                                    <% let fct = 0
+                                        for (let d = 0; d < day.length; d++, fct+=8) {
+                                            for (let i = 0; i < classes.length; i++) {
+                                                itr = fct + (data.length / classes.length * i);
+                                    %>
+                                    <tr>
+                                        <% if (i == 0) { %>
+                                            <th rowspan='<%= classes.length %>'> <%= day[d].toUpperCase() %> </th>
+                                        <% } %>
+                                        <th><%= classes[i].name %></th>
 
-                                            </tr>   
-                                             <% } } %>
+                                        <td id="<%= classes[i].name %>-<%= day[d] %>-t1" onclick="editCell('<%= classes[i].name %>-<%= day[d] %>-t1')">
+                                            <%= data[itr].subject %> </td>
+                                        <input type="hidden" name="<%= classes[i].name %>-<%= day[d] %>-t1" />
 
-                                            <% for (let i = 0; i < classes.length; i++) { %>
-                                            <tr>
-                                                <% if (i == 0) { %>
-                                                <th rowspan=<%= classes.length %>>TUESDAY</th>
-                                                <% } %>
-                                                <th><%= classes[i].name %></th>
-                                                <td id="<%= classes[i].name %>-tues-time1" class="" onclick=editCell( "<%= classes[i].name %>-tues-time1")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-tues-time1" id="input-<%= classes[i].name %>-tues-time1">
-                                                <td id="<%= classes[i].name %>-tues-time2" class="" onclick=editCell( "<%= classes[i].name %>-tues-time2")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-tues-time2" id="input-<%= classes[i].name %>-tues-time2">
-                                                <% if (i == 0) { %>
-                                                <th rowspan="<%= classes.length %>">SHORT BREAK</th>
-                                                <% } %>
-                                                <td id="<%= classes[i].name %>-tues-time3" class="" onclick=editCell( "<%= classes[i].name %>-tues-time3")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-tues-time3" id="input-<%= classes[i].name %>-tues-time3">
-                                                <td id="<%= classes[i].name %>-tues-time4" class="" onclick=editCell( "<%= classes[i].name %>-tues-time4")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-tues-time4" id="input-<%= classes[i].name %>-tues-time4">
-                                                <td id="<%= classes[i].name %>tuesn-time5" class="" onclick=editCell( "<%= classes[i].name %>-tues-time5")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-tues-time5" id="input-<%= classes[i].name %>-tues-time5">
-                                                <% if (i == 0) { %>
-                                                <th rowspan="<%= classes.length %>">LONG BREAK</th>
-                                                <% } %>
-                                                <td id="<%= classes[i].name %>-tues-time6" class="" onclick=editCell( "<%= classes[i].name %>-tues-time6")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-tues-time6" id="input-<%= classes[i].name %>-tues-time6">
-                                                <td id="<%= classes[i].name %>-tues-time7" class="" onclick=editCell( "<%= classes[i].name %>-tues-time7")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-tues-time7" id="input-<%= classes[i].name %>-tues-time7">
-                                                <td id="<%= classes[i].name %>-tues-time8" class="" onclick=editCell( "<%= classes[i].name %>-tues-time8")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-tues-time8" id="input-<%= classes[i].name %>-tues-time8">
-                                            </tr>
-                                            <%  } %>
+                                        <td id="<%= classes[i].name %>-<%= day[d] %>-t2" onclick="editCell('<%= classes[i].name %>-<%= day[d] %>-t2')">
+                                            <%= data[itr+1].subject %> </td>
+                                        <input type="hidden" name="<%= classes[i].name %>-<%= day[d] %>-t2" />
 
-                                            <% for (let i = 0; i < classes.length; i++) { %>
-                                            <tr>
-                                                <% if (i == 0) { %>
-                                                <th rowspan=<%= classes.length %>>WEDNESDAY</th>
-                                                <% } %>
-                                                <th><%= classes[i].name %></th>
-                                                <td id="<%= classes[i].name %>-wed-time1" class="" onclick=editCell( "<%= classes[i].name %>-wed-time1")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-wed-time1" id="input-<%= classes[i].name %>-wed-time1">
-                                                <td id="<%= classes[i].name %>-wed-time2" class="" onclick=editCell( "<%= classes[i].name %>-wed-time2")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-wed-time2" id="input-<%= classes[i].name %>-wed-time2">
-                                                <% if (i == 0) { %>
-                                                <th rowspan="<%= classes.length %>">SHORT BREAK</th>
-                                                <% } %>
-                                                <td id="<%= classes[i].name %>-wed-time3" class="" onclick=editCell( "<%= classes[i].name %>-wed-time3")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-wed-time3" id="input-<%= classes[i].name %>-wed-time3">
-                                                <td id="<%= classes[i].name %>-wed-time4" class="" onclick=editCell( "<%= classes[i].name %>-wed-time4")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-wed-time4" id="input-<%= classes[i].name %>-wed-time4">
-                                                <td id="<%= classes[i].name %>wed-time5" class="" onclick=editCell( "<%= classes[i].name %>-wed-time5")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-wed-time5" id="input-<%= classes[i].name %>-wed-time5">
-                                                <% if (i == 0) { %>
-                                                <th rowspan="<%= classes.length %>">LONG BREAK</th>
-                                                <% } %>
-                                                <td id="<%= classes[i].name %>-wed-time6" class="" onclick=editCell( "<%= classes[i].name %>-wed-time6")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-wed-time6" id="input-<%= classes[i].name %>-wed-time6">
-                                                <td id="<%= classes[i].name %>-wed-time7" class="" onclick=editCell( "<%= classes[i].name %>-wed-time7")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-wed-time7" id="input-<%= classes[i].name %>-wed-time7">
-                                                <td id="<%= classes[i].name %>-wed-time8" class="" onclick=editCell( "<%= classes[i].name %>-wed-time8")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-wed-time8" id="input-<%= classes[i].name %>-wed-time8">
-                                            </tr>
-                                            <%  } %>
+                                        <% if (i == 0) { %>
+                                            <th rowspan="<%= classes.length %>" >SHORT BREAK</th>
+                                            <% } %>
 
-                                            <% for (let i = 0; i < classes.length; i++) { %>
-                                            <tr>
-                                                <% if (i == 0) { %>
-                                                <th rowspan=<%= classes.length %>>THURSDAY</th>
-                                                <% } %>
-                                                <th><%= classes[i].name %></th>
-                                                <td id="<%= classes[i].name %>-thurs-time1" class="" onclick=editCell( "<%= classes[i].name %>-thurs-time1")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>- thurs-time1" id="input-<%= classes[i].name %>-thurs-time1">
-                                                <td id="<%= classes[i].name %>-thurs-time2" class="" onclick=editCell( "<%= classes[i].name %>- thurs-time2")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>- thurs-time2" id="input-<%= classes[i].name %>-thurs-time2">
-                                                <% if (i == 0) { %>
-                                                <th rowspan="<%= classes.length %>">SHORT BREAK</th>
-                                                <% } %>
-                                                <td id="<%= classes[i].name %>-thurs-time3" class="" onclick=editCell( "<%= classes[i].name %>- thurs-time3")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>- thurs-time3" id="input-<%= classes[i].name %>-thurs-time3">
-                                                <td id="<%= classes[i].name %>-thurs-time4" class="" onclick=editCell( "<%= classes[i].name %>- thurs-time4")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>- thurs-time4" id="input-<%= classes[i].name %>-thurs-time4">
-                                                <td id="<%= classes[i].name %> thurs-time5" class="" onclick=editCell( "<%= classes[i].name %>-  thurs-time5")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>- thurs-time5" id="input-<%= classes[i].name %>-thurs-time5">
-                                                <% if (i == 0) { %>
-                                                <th rowspan="<%= classes.length %>">LONG BREAK</th>
-                                                <% } %>
-                                                <td id="<%= classes[i].name %>-thurs-time6" class="" onclick=editCell( "<%= classes[i].name %>- thurs-time6")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>- thurs-time6" id="input-<%= classes[i].name %>-thurs-time6">
-                                                <td id="<%= classes[i].name %>-thurs-time7" class="" onclick=editCell( "<%= classes[i].name %>- thurs-time7")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>- thurs-time7" id="input-<%= classes[i].name %>-thurs-time7">
-                                                <td id="<%= classes[i].name %>-thurs-time8" class="" onclick=editCell( "<%= classes[i].name %>- thurs-time8")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>- thurs-time8" id="input-<%= classes[i].name %>-thurs-time8">
-                                            </tr>
-                                            <%  } %>
+                                        <td id="<%= classes[i].name %>-<%= day[d] %>-t3" onclick="editCell('<%= classes[i].name %>-<%= day[d] %>-t3')">
+                                            <%= data[itr+2].subject %> </td>
+                                        <input type="hidden" name="<%= classes[i].name %>-<%= day[d] %>-t3" />
 
-                                            <% for (let i = 0; i < classes.length; i++) { %>
-                                            <tr>
-                                                <% if (i == 0) { %>
-                                                <th rowspan=<%= classes.length %>>FRIDAY</th>
-                                                <% } %>
-                                                <th><%= classes[i].name %></th>
-                                                <td id="<%= classes[i].name %>-fri-time1" class="" onclick=editCell( "<%= classes[i].name %>-fri-time1")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-fri-time1" id="input-<%= classes[i].name %>-fri-time1">
-                                                <td id="<%= classes[i].name %>fri-time2" class="" onclick=editCell( "<%= classes[i].name %>-fri-time2")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-fri-time2" id="input-<%= classes[i].name %>fri-time2">
-                                                <% if (i == 0) { %>
-                                                <th rowspan="<%= classes.length %>">SHORT BREAK</th>
-                                                <% } %>
-                                                <td id="<%= classes[i].name %>fri-time3" class="" onclick=editCell( "<%= classes[i].name %>-fri-time3")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-fri-time3" id="input-<%= classes[i].name %>fri-time3">
-                                                <td id="<%= classes[i].name %>fri-time4" class="" onclick=editCell( "<%= classes[i].name %>-fri-time4")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-fri-time4" id="input-<%= classes[i].name %>fri-time4">
-                                                <td id="<%= classes[i].name %>fri-time5" class="" onclick=editCell( "<%= classes[i].name %>- fri-time5")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-fri-time5" id="input-<%= classes[i].name %>fri-time5">
-                                                <% if (i == 0) { %>
-                                                <th rowspan="<%= classes.length %>">LONG BREAK</th>
-                                                <% } %>
-                                                <td id="<%= classes[i].name %>fri-time6" class="" onclick=editCell( "<%= classes[i].name %>-fri-time6")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-fri-time6" id="input-<%= classes[i].name %>fri-time6">
-                                                <td id="<%= classes[i].name %>fri-time7" class="" onclick=editCell( "<%= classes[i].name %>-fri-time7")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-fri-time7" id="input-<%= classes[i].name %>fri-time7">
-                                                <td id="<%= classes[i].name %>fri-time8" class="" onclick=editCell( "<%= classes[i].name %>-fri-time8")></td>
-                                                <input type="hidden" name="<%= classes[i].name %>-fri-time8" id="input-<%= classes[i].name %>fri-time8">
-                                            </tr>
-                                            <%  } %>
+                                        <td id="<%= classes[i].name %>-<%= day[d] %>-t4" onclick="editCell('<%= classes[i].name %>-<%= day[d] %>-t4')">
+                                            <%= data[itr+3].subject %> </td>
+                                        <input type="hidden" name="<%= classes[i].name %>-<%= day[d] %>-t4" />
 
+                                        <td id="<%= classes[i].name %>-<%= day[d] %>-t5" onclick="editCell('<%= classes[i].name %>-<%= day[d] %>-t5')">
+                                            <%= data[itr+4].subject %> </td>
+                                        <input type="hidden" name="<%= classes[i].name %>-<%= day[d] %>-t5" />
 
-                                        </table>
-                            </div>
-                            
-                        </div><br>
-                        <button type="button" class="btn btn-primary">Reset</button>
-                        <button type="button" class="btn btn-primary">Submit</button>
-                    </form>
-                    </div>
+                                        <% if (i == 0) { %>
+                                            <th rowspan="<%= classes.length %>" >LONG BREAK</th>
+                                        <% } %>
 
+                                        <td id="<%= classes[i].name %>-<%= day[d] %>-t6" onclick="editCell('<%= classes[i].name %>-<%= day[d] %>-t6')">
+                                            <%= data[itr+5].subject %> </td>
+                                        <input type="hidden" name="<%= classes[i].name %>-<%= day[d] %>-t6" />
+
+                                        <td id="<%= classes[i].name %>-<%= day[d] %>-t7" onclick="editCell('<%= classes[i].name %>-<%= day[d] %>-t7')">
+                                            <%= data[itr+6].subject %> </td>
+                                        <input type="hidden" name="<%= classes[i].name %>-<%= day[d] %>-t7" />
+
+                                        <td id="<%= classes[i].name %>-<%= day[d] %>-t8" onclick="editCell('<%= classes[i].name %>-<%= day[d] %>-t8')">
+                                            <%= data[itr+7].subject %> </td>
+                                        <input type="hidden" name="<%= classes[i].name %>-<%= day[d] %>-t8" />
+                                    </tr>
+                                    <% } } %>
+                                </table>
+                            <%  } %>
+                        </div>
+                    </div><br>
+                    <button type="button" class="btn btn-primary">Reset</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </form>
             </div>
-
         </div>
-        <br>
-        <script>
-            $('#myModal').on('show.bs.modal', function (e) {
-                var $invoker = $(e.relatedTarget);
-                debugger;
-            });
-        </script>
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
+    </div>
+    <br>
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Select a subject</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form action="#" method="get">
-                            <input type="hidden" name="subjectValue" id="subjectValue">
-                             <select class="form-control input-sm" id="sel1" onchange=handleSubjectSelect(this)>
-                                <% for (let i = 0; i < subjects.length; i++)  {  %>
-                                    <option value="<%= subjects[i].name %>"><%= subjects[i].name %></option>
-                                <% } %>
-                            </select>
-                        </form>
-                       
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-default" data-dismiss="modal">Submit</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Select a subject</h4>
                 </div>
+                <div class="modal-body">
+                    <form action="#" method="get">
+                        <input type="hidden" name="subjectValue" id="subjectValue">
+                        <select class="form-control input-sm" id="sel1" onchange=handleSubjectSelect(this)>
+                        <% for (let i = 0; i < subjects.length; i++)  {  %>
+                            <option value="<%= subjects[i].name %>"><%= subjects[i].name %></option>
+                        <% } %>
+                        </select>
+                    </form>
 
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" data-dismiss="modal">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
-        </div>
-        
 
-        <td id="js1Mon2" class="" data-toggle="modal" data-target="#myModal"></td>
-        <br><br>
-        <!-- <% include ./partials/footer.ejs %> -->
-        <script src="js/script.js"></script>
+        </div>
+    </div>
+    <!--<td id="js1Mon2" class="" data-toggle="modal" data-target="#myModal"></td>-->
+    <br><br>
+    <!-- <% include ./partials/footer.ejs %> -->
+    <script>
+        $('#myModal').on('show.bs.modal', function (e) {
+            var $invoker = $(e.relatedTarget);
+            debugger;
+        });
+    </script>
+    <script src="/js/script.js"></script>
 </body>
 
 </html>

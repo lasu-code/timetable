@@ -49,81 +49,73 @@
     <br>
     <div class="container">
         <div class="row content">
-            <% include ./partials/sidebar %>
+            <%- include('./partials/sidebar', {activeNav: 'subject'}); %>
                 <div class="col-sm-9 container-fluid ">
                 <% include ./partials/breadcrumb %>
-                    <h2>
-                        <%= 'Editing Subject: ' + onesubject.name %>
-                    </h2>
-                    <div class="col-sm-12 well dark">
-                        <form method="post" class="admin-form " action="/dashboard/subjects/edit/<%= onesubject._id%>?_method=PUT">
-                            <input type="hidden" name="_id" value="<%= onesubject._id %>" />
-                            <div class="form-group col-sm-6">
-                                <label for="name">Class Name</label>
-                                <input type="text" name="name" class="form-control" value="<%= onesubject.name %>" />
-                            </div>
+                <h2>
+                    <%= 'Editing Subject: ' + onesubject.name %>
+                </h2>
+                <div class="col-sm-12 well dark">
+                    <form method="post" class="admin-form " action="/dashboard/subjects/edit/<%= onesubject._id%>?_method=PUT">
+                        <input type="hidden" name="_id" value="<%= onesubject._id %>" />
+                        <div class="form-group col-sm-6">
+                            <label for="name">Class Name</label>
+                            <input type="text" name="name" class="form-control" value="<%= onesubject.name %>" />
+                        </div>
 
-                            <div class="form-group col-sm-6">
-                                <label for="status">Status</label>
-                                <div class="col-sm-12 radio-group">
-                                    <input type="radio" name="status" value="true" <% if(onesubject.status) { %>
-                                    <%= 'checked' %>
-                                        <% } %>> &nbsp;
-                                            <span>Active</span>
-                                            <span class="space"></span>
-                                            <input type="radio" name="status" value="false" <% if(!onesubject.status) { %>
-                                            <%= 'checked' %>
-                                                <% } %>> &nbsp;
-                                                    <span>In Active</span>
-                                </div>
+                        <div class="form-group col-sm-6">
+                            <label for="status">Status</label>
+                            <div class="col-sm-12 radio-group">
+                                <input type="radio" name="status" value="true"
+                                    <% if(onesubject.status) { %> <%= 'checked' %>
+                                    <% } %>> &nbsp;
+                                <span>Active</span>
+                                <span class="space"></span>
+                                <input type="radio" name="status" value="false"
+                                    <% if(!onesubject.status) { %> <%= 'checked' %>
+                                    <% } %>> &nbsp;
+                                <span>In Active</span>
                             </div>
+                        </div>
 
-                            <div class="col-sm-12 form-group"></div>
-                            <div class="form-group col-sm-6">
-                                <label for="status" class="text-primary">Associated Class</label>
-                                <br />
-                                <% if(onesubject.class) { %>
-                                    <% for(let i=0; i < onesubject.class.length; i++) { %>
-                                        <div class="col-sm-3 radio-group">
-                                            <input type="checkbox" name="class" value="<%= onesubject.class[i]._id %>" checked>                                            &nbsp;
-                                            <span class="text-primary">
-                                    <%= onesubject.class[i].name %></span>
-                                    <label for="sel1">No. of Periods:</label>
-                                    <select class="form-control" id="sel1" name="periods">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                        </div>
-                                        <% } %>
-                                            <% } %>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label for="status" class="text-danger">Other Classes</label>
-                                <br />
-                                <% for(let i=0; i < classes.length; i++) { %>
+                        <div class="col-sm-12 form-group"></div>
+                        <div class="form-group col-sm-6">
+                            <label for="status" class="text-primary">Associated Class</label>
+                            <br />
+                            <% if(onesubject.class) { %>
+                                <% for(let i=0; i < onesubject.class.length; i++) { %>
                                     <div class="col-sm-3 radio-group">
-                                        <input type="checkbox" name="class" value="<%= classes[i]._id %>"> &nbsp;
-                                        <span class="text-danger">
-                                <%= classes[i].name %></span>
+                                        <input type="checkbox" name="class" value="<%= onesubject.class[i]._id %>" checked> &nbsp;
+                                        <span class="text-primary"> <%= onesubject.class[i].name %></span>
+                                        <label for="sel1">No. of Periods:</label>
+                                        <select class="form-control" id="sel1" name="periods">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
                                     </div>
-                                    <% } %>
-                            </div>
+                                <% } %>
+                            <% } %>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="status" class="text-danger">Other Classes</label>
+                            <br />
+                            <% for(let i=0; i < classes.length; i++) { %>
+                                <div class="col-sm-3 radio-group">
+                                    <input type="checkbox" name="class" value="<%= classes[i]._id %>"> &nbsp;
+                                    <span class="text-danger"> <%= classes[i].name %></span>
+                                </div>
+                            <% } %>
+                        </div>
 
-                            <div class="col-sm-12">
-                                <button type="submit" name="submit" value="submit" class="btn btn-primary">Update Subject</button>
-                            </div>
-                        </form>
-                    </div>
-                      
-                   
-
-
-
-
+                        <div class="col-sm-12">
+                            <button type="submit" name="submit" value="submit" class="btn btn-primary">Update Subject</button>
+                        </div>
+                    </form>
                 </div>
+            </div>
         </div>
     </div>
     <!-- <% include ./partials/footer.ejs %> -->

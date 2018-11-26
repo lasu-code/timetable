@@ -16,7 +16,7 @@ require("./config/passport");
 
 let app = express();
 
-let db = "mongodb://localhost:27017/timetable2";
+let db = "mongodb://localhost:27017/timetable";
 mongoose.Promise = global.Promise;
 mongoose.connect(db, { useNewUrlParser: true, useCreateIndex: true });
 

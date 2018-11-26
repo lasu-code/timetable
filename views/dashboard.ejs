@@ -14,7 +14,6 @@
     <script src="js/script.js"></script>
     <title><%= title%></title>
     <style>
-
         .navbar {
             margin-bottom: 0;
             background-color: #4700b3;
@@ -42,8 +41,6 @@
             border-color: transparent;
             color: #fff !important;
         }
-
-
     </style>
 </head>
 <body>
@@ -53,41 +50,38 @@
     <br>
     <div class="container">
         <div class="row content">
-            <% include ./partials/sidebar %>
+            <%- include('./partials/sidebar', {activeNav: 'home'}); %>
 
             <div class="col-sm-9">
                 <div class="container-fluid row text-center slideanim">
-
                     <br>
                     <br>
-                        <div class="col-sm-4">
-                            <a href="/dashboard/classes">
-                                <div class="thumbnail dark">
-                                    <img src="img/class.jpg" alt="class" width="400" height="300">
-                                    <p><strong>MANAGE CLASS</strong></p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-sm-4">
-                            <a href="/dashboard/subjects">
-                                <div class="thumbnail dark">
-                                    <img src="img/subject.jpg" alt="subjects" width="400" height="300">
-                                    <p><strong>MANAGE SUBJECTS</strong></p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-sm-4">
-                            <a href="/timetable">
-                                <div class="thumbnail dark">
-                                    <img src="img/timetable.jpg" alt="timetable" width="400" height="300">
-                                    <p><strong>MANAGE TIMETABLE</strong></p>
-                                </div>
-                            </a>
-                        </div>
-
-
+                    <div class="col-sm-4">
+                        <a href="/dashboard/classes">
+                            <div class="thumbnail dark">
+                                <img src="img/class.jpg" alt="class" width="400" height="300">
+                                <p><strong>MANAGE CLASS</strong></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="/dashboard/subjects">
+                            <div class="thumbnail dark">
+                                <img src="img/subject.jpg" alt="subjects" width="400" height="300">
+                                <p><strong>MANAGE SUBJECTS</strong></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="/timetable">
+                            <div class="thumbnail dark">
+                                <img src="img/timetable.jpg" alt="timetable" width="400" height="300">
+                                <p><strong>MANAGE TIMETABLE</strong></p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-
+            </div>
         </div>
     </div>
     <!-- <% include ./partials/footer.ejs %> -->

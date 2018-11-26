@@ -1,10 +1,59 @@
-// const mongoose = require('mongoose');
-// const timeTable = mongoose.model('timeTable');
-
 let pluralize = require('pluralize');
 let Class = require('../models/class.model.js');
 let Subject = require('../models/subject.model.js');
 let Timetable = require('../models/timetable.model.js');
+
+let day = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+let period = ['t1', 't2', 't3', 't4', 't5', 't6', 't7', 't8'];
+
+// create data model for timetable
+async function createSlots(classname, tempArray) {
+    let slots = [];
+    let randArr = shuffleArray(tempArray);
+
+    for (let i = 0; i < day.length; i++) {
+        for (let j = 0; j < period.length; j++) {
+            slots.push({ day: day[i], period: period[j], classname: classname, subject: randArr.shift(), isOccupied: true });
+        }
+    }
+    return slots;
+}
+
+// convert param to array
+function convertToArray(param) {
+    if (Array.isArray(param)) {
+        return param;
+    } else {
+        return param.split(' ');
+    }
+}
+
+// shuffle array
+function shuffleArray(array) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
+// async foreach
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
 
 exports.homePage = function (req, res, next) {
     res.render('index', { title: 'TimeTable App' });
@@ -53,39 +102,18 @@ exports.classPage = function (req, res, next) {
 
 exports.classPost = function (req, res, next) {
 
-    function createSlots(classname) {
-        let day = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
-        let period = ['t1', 't2', 't3', 't4', 't5', 't6', 't7', 't8'];
-        let slots = [];
-
-        for (let i = 0; i < day.length; i++) {
-            for (let j = 0; j < period.length; j++) {
-                slots.push({ day: day[i], period: period[j], classname: classname });
-            }
-        }
-        console.log(slots);
-        // let timeTableData = new Timetable();
-        Timetable.create(slots)
-                    .then((slot) => {
-                        console.log('Slots created for', classname)
-                    })
-                    .catch((err) => {
-                        console.log('An err occured: ', err);
-                    })
-    }
-
     let oneClass = new Class;
     oneClass.name = req.body.name;
     oneClass.status = req.body.status;
 
     oneClass.save()
         .then((data) => {
-            createSlots(data.name)
             res.redirect('/dashboard/classes');
         })
         .catch((err) => {
             console.log("Error occured", err);
-            res.send(`${err.name}: ${err._message}`);
+            req.flash('error', `${err.name}: ${err._message}`)
+            res.redirect('/dashboard/classes');
         });
 }
 
@@ -148,29 +176,20 @@ exports.subjectPost = function (req, res, next) {
     let oneSubject = new Subject;
     oneSubject.name = req.body.name;
     oneSubject.status = req.body.status;
-    oneSubject.class = req.body.class;
-    oneSubject.periods = req.body.periods;
-    
+
+    let subjectPeriods = []
+    cls = convertToArray(req.body.class);
+    pds = convertToArray(req.body.periods);
+
+    let pd = pds.filter(v => v != '-');
+    pd.forEach((pl, index) => {
+        subjectPeriods.push({ class_ref: cls[index], class_period: pl, class_name: cls[index] })
+    })
+    oneSubject.periods = subjectPeriods;
 
     oneSubject.save()
         .then((data) => {
             res.redirect('/dashboard/subjects');
-        })
-        .catch((err) => {
-            console.log("Error occured", err);
-            res.send(`${err.name}: ${err._message}`);
-        });
-}
-
-exports.createTimeTable = function (req, res, next) {
-    let oneTimetable = new Timetable;
-    oneTimetable.name = req.body.name;
-    oneTimetable.time = req.body.time;
-    oneTimetable.day = req.body.day;
-
-    oneTimetable.save()
-        .then((data) => {
-            res.redirect('/timetable');
         })
         .catch((err) => {
             console.log("Error occured", err);
@@ -231,21 +250,89 @@ exports.oneSubjectDelete = function (req, res, next) {
 }
 
 exports.timetable = function (req, res, next) {
-    Class.find({ 'status': true })
-        .exec()
-        .then((classes) => {
-            Subject.find({})
-                .populate('class')
-                .exec()
-                .then((subjects) => {
-                    res.render('timetable', { title: "Manage Subjects", subjects: subjects, pluralize: pluralize, classes: classes });
+    // save to timetable db
+    // a randomized array of the class subjects
+    // each class exists X times in the array
+    // X is the number of periods allocated to that subject
+
+    // randomised array, subject ref
+    let sbjArrayOutput = [], subjectRef = '';
+
+    // call async function
+    run().catch(error => { console.error(error.stack) });
+
+    // find and iterate active classes async way
+    async function run () {
+        let classes =  await Class.find({ 'status': true })
+
+        // async looping
+        await asyncForEach(classes, async (clss) => {
+
+            // get subjects assigned to each class
+            let subjects = subjectRef = await Subject.find({'periods.class_ref': clss._id})
+
+            // generate temp subject array
+            let sbjTempArray = [];
+            if (subjects.length > 0) {
+
+                // array of name of subjects only for padding randomised array
+                sbjtOnly = subjects.map(s => s.name );
+
+                // generate initial randomised array
+                subjects.forEach((sbjt) => {
+                    sbjt.periods.forEach((sp) => {
+
+                        // iterate each subject same times as the period set and push to randomised array
+                        for (let c = 0; c < sp.class_period; c++) {
+                            sbjTempArray.push(sbjt.name)
+                        }
+                    })
                 })
-                .catch((err) => {
-                    console.log("Subject query error:", err);
-                });
+
+                // pad randomised array if length less than 40
+                let sbjTempArrayLength = sbjTempArray.length;
+                for (let c = 0; c < (40 - sbjTempArrayLength); c++) {
+                    sbjTempArray.push(shuffleArray(sbjtOnly)[0]);
+                }
+                // for (let c = 0; c < 40; c++) {
+                //     sbjTempArray.push('maths');
+                // }
+            } else {
+                for (let c = 0; c < 40; c++) {
+                    sbjTempArray.push('null');
+                }
+            }
+
+            // generate the proper timetable db objects to be saved
+            let sbjArray = await createSlots(clss.name, sbjTempArray);
+            sbjArrayOutput = sbjArrayOutput.concat(sbjArray);
+
+            // save randomised array to timetable db
+            await Timetable.deleteMany({'classname': clss.name.toUpperCase()})
+
+            // save randomised array to db
+            await Timetable.create(sbjArray)
+
         })
-        .catch((err) => {
-            console.log("Class query error:", err);
-        });
+
+        // output
+        res.render('timetable', { title: "Manage Timetable", classes: classes, day: day, period: period, data: sbjArrayOutput, subjects: subjectRef });
+    }
+
 };
 
+exports.createTimeTable = function (req, res, next) {
+    let oneTimetable = new Timetable;
+    oneTimetable.name = req.body.name;
+    oneTimetable.time = req.body.time;
+    oneTimetable.day = req.body.day;
+
+    oneTimetable.save()
+        .then((data) => {
+            res.redirect('/timetable');
+        })
+        .catch((err) => {
+            console.log("Error occured", err);
+            res.send(`${err.name}: ${err._message}`);
+        });
+}
