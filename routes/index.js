@@ -46,7 +46,7 @@ router.get('/dashboard/subjects/edit/:id', timeTableController.oneSubjectPage);
 router.put('/dashboard/subjects/edit/:id', timeTableController.oneSubjectPost);
 router.delete('/dashboard/subjects/edit/:id', timeTableController.oneSubjectDelete);
 
-router.get('/dashboard/timetable', timeTableController.timetable);
+router.get('/timetable', timeTableController.timetable);
 router.post('dashboard/createTimeTable', timeTableController.createTimeTable);
 
 
