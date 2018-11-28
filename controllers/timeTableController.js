@@ -316,7 +316,7 @@ exports.timetable = function (req, res, next) {
         })
 
         // output
-        res.render('timetable', { title: "Manage Timetable", classes: classes, day: day, period: period, data: sbjArrayOutput, subjects: subjectRef });
+        res.render('timetable', { title: "Manage Timetable", classes: classes, day: day, period: period, data: sbjArrayOutput, subjects: subjectRef});
     }
 
 };

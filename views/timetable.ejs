@@ -117,7 +117,9 @@
                         <div class="container-fluid">
                             <% if (classes.length < 1) { %>
                                 <h2>No Class in DB</h2>
-                            <% } else { %>
+                            <% } else if(subjects.length < 1) { %>
+                                <h2>No Subject in DB</h2>
+                            <%  } else { %>
                                 <table>
                                     <tr>
                                         <th></th>
