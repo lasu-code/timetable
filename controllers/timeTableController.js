@@ -56,7 +56,7 @@ async function asyncForEach(array, callback) {
 }
 
 exports.homePage = function (req, res, next) {
-    res.render('index', { title: 'TimeTable App' });
+    res.render('index', { title: 'TimeTable App', isLogin: req.isAuthenticated() });
 };
 
 exports.reg = function (req, res, next) {
@@ -64,19 +64,38 @@ exports.reg = function (req, res, next) {
 };
 
 exports.logout = function (req, res, next) {
-    req.flash('error', 'Login to continue!');
     req.logout();
-    res.redirect('/#login');
+    res.redirect('/');
 };
 
 exports.studentsPage = function (req, res, next) {
     Class.find({})
         .exec()
         .then((classes) => {
-            res.render('student', { title: "Students Page", classes: classes});
+            res.render('student', { title: "Students Page", allclasses: classes});
         })
         .catch((err) => {
             console.log("Error occured", err);
+        });
+};
+
+exports.studentsPost = function (req, res, next) {
+    console.log(req.body.class);
+    Timetable.find({'classname': req.body.class.toUpperCase()})
+        .exec()
+        .then((data) => {
+            Class.find({})
+                .exec()
+                .catch((err) => {
+                    console.log("Class fetch error occured", err);
+                })
+                .then((classes) => {
+                    // res.json(data);
+                    res.render('student', { title: "Students Page", allclasses: classes, data: data, day: day, dbData: true, classes: [{name: req.body.class}] });
+                });
+        })
+        .catch((err) => {
+            console.log("Timetable fetch error occured", err);
         });
 };
 
@@ -271,47 +290,58 @@ exports.timetable = function (req, res, next) {
             // get subjects assigned to each class
             let subjects = subjectRef = await Subject.find({'periods.class_ref': clss._id})
 
-            // generate temp subject array
-            let sbjTempArray = [];
-            if (subjects.length > 0) {
+            // Checf if each class has timetable data
+            let timetableData = await Timetable.countDocuments({'classname': clss.name.toUpperCase()});
 
-                // array of name of subjects only for padding randomised array
-                sbjtOnly = subjects.map(s => s.name );
+            if (timetableData == 40) {
 
-                // generate initial randomised array
-                subjects.forEach((sbjt) => {
-                    sbjt.periods.forEach((sp) => {
-
-                        // iterate each subject same times as the period set and push to randomised array
-                        for (let c = 0; c < sp.class_period; c++) {
-                            sbjTempArray.push(sbjt.name)
-                        }
-                    })
-                })
-
-                // pad randomised array if length less than 40
-                let sbjTempArrayLength = sbjTempArray.length;
-                for (let c = 0; c < (40 - sbjTempArrayLength); c++) {
-                    sbjTempArray.push(shuffleArray(sbjtOnly)[0]);
-                }
-                // for (let c = 0; c < 40; c++) {
-                //     sbjTempArray.push('maths');
-                // }
+                // assign db data to data output
+                let sbjArray = await Timetable.find({'classname': clss.name.toUpperCase()});
+                sbjArrayOutput = sbjArrayOutput.concat(sbjArray);
             } else {
-                for (let c = 0; c < 40; c++) {
-                    sbjTempArray.push('null');
+
+                // generate temp subject array
+                let sbjTempArray = [];
+                if (subjects.length > 0) {
+
+                    // array of name of subjects only for padding randomised array
+                    sbjtOnly = subjects.map(s => s.name );
+
+                    // generate initial randomised array
+                    subjects.forEach((sbjt) => {
+                        sbjt.periods.forEach((sp) => {
+
+                            // iterate each subject same times as the period set and push to randomised array
+                            for (let c = 0; c < sp.class_period; c++) {
+                                sbjTempArray.push(sbjt.name)
+                            }
+                        })
+                    })
+
+                    // pad randomised array if length less than 40
+                    let sbjTempArrayLength = sbjTempArray.length;
+                    for (let c = 0; c < (40 - sbjTempArrayLength); c++) {
+                        sbjTempArray.push(shuffleArray(sbjtOnly)[0]);
+                    }
+                    // for (let c = 0; c < 40; c++) {
+                    //     sbjTempArray.push('maths');
+                    // }
+                } else {
+                    for (let c = 0; c < 40; c++) {
+                        sbjTempArray.push('null');
+                    }
                 }
+
+                // generate the proper timetable db objects to be saved
+                let sbjArray = await createSlots(clss.name, sbjTempArray);
+                sbjArrayOutput = sbjArrayOutput.concat(sbjArray);
+
+                // save randomised array to timetable db
+                await Timetable.deleteMany({'classname': clss.name.toUpperCase()})
+
+                // save randomised array to db
+                await Timetable.create(sbjArray)
             }
-
-            // generate the proper timetable db objects to be saved
-            let sbjArray = await createSlots(clss.name, sbjTempArray);
-            sbjArrayOutput = sbjArrayOutput.concat(sbjArray);
-
-            // save randomised array to timetable db
-            await Timetable.deleteMany({'classname': clss.name.toUpperCase()})
-
-            // save randomised array to db
-            await Timetable.create(sbjArray)
 
         })
 

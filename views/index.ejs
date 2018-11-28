@@ -43,10 +43,10 @@
       font-family: Montserrat, sans-serif;
     }
     /*
-  .container-fluid {
-      padding: 60px 50px;
-  }
-*/
+      .container-fluid {
+          padding: 60px 50px;
+      }
+    */
 
     .bg-grey {
       background-color: #f6f6f6;
@@ -254,10 +254,19 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#login"><span class="fa fa-sign-in"></span> LOGIN</a></li>
-          <li><a href="#about"><span class="fa fa-tag"></span> ABOUT</a></li>
-          <li><a href="#sign-up"><span class="fa fa-drivers-license"></span>SIGN UP</a></li>
-          <li><a href="#contact"><span class="fa fa-mobile-phone"></span> CONTACT</a></li>
+          <% if( !isLogin ) { %>
+            <li><a href="/student"><span class="fa fa-file"></span> MY TIMETABLE</a></li>
+          <% } %>
+          <li><a class="pagelink" href="#about"><span class="fa fa-tag"></span> ABOUT</a></li>
+          <li><a class="pagelink" href="#contact"><span class="fa fa-mobile-phone"></span> CONTACT</a></li>
+          <li><span class='navbar-text'>|</span></li>
+          <% if( isLogin ) { %>
+            <li><a href="/dashboard"><span class="fa fa-boxes"></span> DASHBOARD</a></li>
+            <li><a href="/logout"><span class="fa fa-sign-out"></span> LOGOUT</a></li>
+          <% } else { %>
+            <li><a class="pagelink" href="#login"><span class="fa fa-sign-in"></span> LOGIN</a></li>
+            <li><a class="pagelink" href="#sign-up"><span class="fa fa-drivers-license"></span>SIGN UP</a></li>
+          <% } %>
         </ul>
       </div>
     </div>
@@ -449,7 +458,7 @@
   <script>
     $(document).ready(function () {
       // Add smooth scrolling to all links in navbar + footer link
-      $(".abt a, .navbar a, footer a[href='#myPage']").on('click', function (event) {
+      $(".abt a, .navbar a.pagelink, footer a[href='#myPage']").on('click', function (event) {
 
         // Prevent default anchor click behavior
         event.preventDefault();

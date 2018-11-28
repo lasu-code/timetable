@@ -16,7 +16,8 @@ function checkLoginStatus(req, res, next) {
 
 router.get('/', timeTableController.homePage);
 router.get('/student', timeTableController.studentsPage);
-router.get('/student2', timeTableController.studentsPage2);
+router.post('/student', timeTableController.studentsPost);
+// router.get('/student2', timeTableController.studentsPage2);
 
 router.post('/signup/user', passport.authenticate('local.registerUser', {
     successRedirect: '/registration',
@@ -45,7 +46,7 @@ router.get('/dashboard/subjects/edit/:id', timeTableController.oneSubjectPage);
 router.put('/dashboard/subjects/edit/:id', timeTableController.oneSubjectPost);
 router.delete('/dashboard/subjects/edit/:id', timeTableController.oneSubjectDelete);
 
-router.get('/timetable', timeTableController.timetable);
+router.get('/dashboard/timetable', timeTableController.timetable);
 router.post('dashboard/createTimeTable', timeTableController.createTimeTable);
 
 

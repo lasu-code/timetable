@@ -23,29 +23,61 @@
             padding: 1px 25px;
             font-family: Montserrat, sans-serif;
         }
+        table,
+        th,
+        td {
+            background-color: white;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
     </style>
 </head>
 
-<body>
+<body id="myPage">
     <div class="jumbotron text-center">
         <h1>MyTimeTable.com</h1>
         <p>We specialize in educational lecture schedule...</p>
     </div>
 
-    <div class="reg">
-        <h2>Enter your class:</h2>
-        <hr>
-        <div class="col-sm-7">
-            <select class="form-control input-sm" id="sel1">
-                <% for (let i = 0; i < classes.length; i++)  {  %>
-                    <option><%= classes[i].name %></option>
-                <% } %>
-            </select>
+    <% if (typeof dbData === 'undefined') { %>
+        <div class="reg">
+            <h2>Choose your class:</h2>
+            <hr>
+            <form method="post" action="/student">
+                <div class="col-sm-7">
+                    <select class="form-control input-sm" id="sel1" name="class">
+                    <% for (let i = 0; i < allclasses.length; i++)  {  %>
+                        <option value="<%= allclasses[i].name %>"><%= allclasses[i].name %></option>
+                    <% } %>
+                    </select>
+                </div>
+                <div class="col-sm-5">
+                    <button type="submit" class="btn btn-primary btn-block">View Timetable</button>
+                </div><br><br/>
+            </form>
         </div>
-        
-        <div class="col-sm-5"> <button type="button" class="btn btn-primary btn-block">Generate Timetable</button> </div><br><br>
-        
-    </div>
+
+    <% } else { %>
+        <div class="container">
+            <div class="row content">
+                <div class="container-fluid">
+                    <h2 class="text-center">TIMETABLE FOR <%= classes[0].name %></h2>
+                    <% include ./partials/timetablepage %>
+                    <br/>
+                    <br/>
+                    <div class="text-center">
+                        <a class="btn btn-primary" href="/student">Choose another class</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
 
 </body>
 
