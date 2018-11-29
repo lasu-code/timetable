@@ -6,7 +6,7 @@
         <li class=<%= (activeNav == 'subject') ? 'active': '' %>><a href="/dashboard/subjects"><span class="fa fa-book"></span> Manage Subjects</a></li>
         <li class=<%= (activeNav == 'timetable') ? 'active': '' %>><a href="/dashboard/timetable"><span class="fa fa-list-alt"></span> Manage Timetable</a></li>
         <li class=<%= (activeNav == 'student') ? 'active': '' %>><a href="/student" target="_blank"><span class="fa fa-file"></span> View Timetables</a></li>
-        <li><a href="#new"><span class="fa fa-file-pdf-o"></span> Download as pdf</a></li>
+        <li  onClick="window.print()"><a href="#new"><span class="fa fa-print"></span> Print Page</a></li>
     </ul><br>
     <div class="input-group">
         <input type="text" class="form-control" placeholder="Search class...">

@@ -66,19 +66,41 @@
     <% } else { %>
         <div class="container">
             <div class="row content">
-                <div class="container-fluid">
+                <div id="table" class="container-fluid">
                     <h2 class="text-center">TIMETABLE FOR <%= classes[0].name %></h2>
                     <% include ./partials/timetablepage %>
                     <br/>
                     <br/>
                     <div class="text-center">
+                        <button class="btn btn-primary" name=print value="Print" onClick="window.print()"><span class="fa fa-print"></span></button>
+                        <button class="btn btn-primary" value="Export" onclick="Export()"><span class="fa fa-file-pdf-o"></span></button>
                         <a class="btn btn-primary" href="/student">Choose another class</a>
                     </div>
                 </div>
+                
+                
             </div>
         </div>
     <% } %>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script type="text/javascript">
+        function Export() {
+            html2canvas(document.getElementById('tblCustomers'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("Table.pdf");
+                }
+            });
+        }
+    </script>
 </body>
+
 
 </html>
